@@ -1,0 +1,1 @@
+All codes can be found at https://github.com/minh-unilim/m2/tree/main/deep-learing/rnn

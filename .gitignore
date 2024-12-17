@@ -1,0 +1,3 @@
+*.csv
+*.net
+**/sentiment_analysis/

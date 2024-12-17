@@ -1,0 +1,140 @@
+\section{Going back to the low-rank nonnegative matrix completion problem}
+
+\begin{enumerate}
+  \item Let us recall the proof of SVD theorem. Let $X\in\RR^{m\times n}$. Since $X^\top X$ is positive semidefinite, we can diagonalize it as
+        $$X^\top X = V\Lambda V^\top,$$
+        where $V\in\RR^n$ is orthogonal and $V = \mathrm{diag}(\lambda_1,\ldots, \lambda_n)$. Let $r=\rank(X)$, we can assume that $\lambda_{i} \ge 0$ for $1\le i \le \rank(X)$ and $\lambda_i = 0$, otherwise. Let $\Sigma = (\Sigma_{ij}) \in \RR^{m\times n}$ defined as
+
+        $$\Sigma_{ij} = \begin{cases}
+            \sqrt{\lambda_i}, & \text{ if } 1\le i = j \le r \\
+            0,                & \text{ otherwise.}
+          \end{cases}$$
+        Next, we partition $\begin{bmatrix}
+            V_1 & V_2
+          \end{bmatrix}$, where $V_1\in\RR^{n\times r}$ and $V_2\in\RR^{n\times(n-r)}$. Then
+        $$X^\top X = \begin{bmatrix}
+            V_1 & V_2
+          \end{bmatrix}\begin{bmatrix}
+            \tilde{\Sigma}^2 & 0 \\
+            0                & 0
+          \end{bmatrix} \begin{bmatrix}
+            V_1^\top \\ V_2^\top
+          \end{bmatrix} = V_1 \tilde{\Sigma}^2 V_1^\top,$$
+        where $\tilde{\Sigma}^2 = \mathrm{diag}(\sigma_1^2,\ldots,\sigma_r^2)$. Hence $(X^\top X)V_2 = V_1 \tilde{\Sigma}^2(V_1^\top V_2) = 0$, which means $(X^\top X)v = X^\top(Xv) = 0$ for all column vectors of $V_2$. Therefore,
+        $$Xv \in \ker X^\top = (\mathrm{Im} X)^\bot.$$
+        Hence, $Xv = 0$ for each column vector of $V_2$, or $XV_2 = 0$. Let
+        $$U_1 = XV_1\tilde{\Sigma}^{-1}.$$
+        We have $U_1^\top U_1 = I_r$ and $U_1^\top X V_1 = \tilde{\Sigma}$. Using the Gram-Schmidt process, we can extend $U_1$ to $U = \begin{bmatrix}
+            U_1 & U_2
+          \end{bmatrix} \in \RR^{m\times m}$ such that $U$ is orthonormal. Then
+        $$U^\top XV = \begin{bmatrix}
+            U_1^\top \\ U_2^\top
+          \end{bmatrix}X\begin{bmatrix}
+            V_1 & V_2
+          \end{bmatrix} = \begin{bmatrix}
+            U_1^\top XV_1 & U_1^\top XV_2 \\
+            U_2^\top XV_1 & U_2^\top XV_2
+          \end{bmatrix}.$$
+        By our construction, $U_1^\top XV_1 = \tilde{\Sigma}$. Since $XV_2 = 0$, we have $U_1^\top XV_2 = U_2^\top XV_2 = 0$. Since $U_2^\top U_1 = 0$ and $XV_1 = U_1\tilde{\Sigma}$, we have
+        $$U_2^\top XV_1 = (U_2^\top U_1)\tilde{\Sigma} = 0.$$
+        Thus, $U^\top XV = \Sigma$ or $X = U\Sigma V^\top$.
+  \item We have $(X^\top X)_{ii} = \sum\limits_{j=1}^{m} X_{ij}^2$ for $1\le i \le n$. Hence,
+        $$\mathrm{Trace}(X^\top X) = \sum\limits_{i=1}^n \sum\limits_{j=1}^{m} X_{ij}^2 = \|X\|_F^2.$$
+        On the other hand,
+        \begin{align*}
+          \mathrm{Trace}(X^\top X)
+           & = \mathrm{Trace}(V\Sigma V^top)                                            \\
+           & = \mathrm{Trace}(\sum\limits_{i=1}^n \Sigma_{ii} v_iv_i^\top)              \\
+           & = \sum\limits_{i=1}^n(\Sigma_{ii} \mathrm{Trace}(v_iv_i^\top))             \\
+           & = \sum\limits_{i=1}^n\left(\Sigma_{ii} \sum\limits_{j=1}^m v_{ij}^2\right) \\
+           & = \sum\limits_{i=1}^n\Sigma_{ii}                                           \\
+           & = \|\sigma\|_2^2.
+        \end{align*}
+        Thus, $\|A\|_F = \sqrt{\mathrm{Trace}(X^\top X)} = \|\sigma\|_2$.
+  \item Let $u\in\ker(X^\top X)$, then
+        $$\|Xu\|_2^2 = u^\top (X^\top X u) = 0.$$
+        Hence $Xu = 0$ or $u\in\ker(X)$. Conversely, if $u\in\ker(X)$, then
+        $$X^\top Xu = X^\top (Xu) = 0,$$
+        or $u\in\ker(X^\top X)$. Thus, $\ker(X) = \ker(X^\top X)$. By the rank-nullity theorem, we have $$\rank(X) = \rank(X^\top X).$$
+
+        Also,
+        $$\rank(X^\top X) = \rank(V\Sigma V^\top) = \rank(\Sigma) = \|\sigma\|_0,$$
+        since $V$ is orthonormal.
+
+        Thus, $\rank(X) = \rank(X^\top X) = \|\sigma\|_0.$
+
+  \item We are provided the nuclear norm $\|X\|_N = \|\sigma\|_1$ and the operator norm $\|X\|_O = \|\sigma\|_{\infty}$. These norms are proved to be dual. Furthermore, let $\overline{B}_{O} = \{X\in\RR^{m\times n} : \|X\|_O \le 1\}$, we have
+        $$\forall X\in \overline{B}_{O}, \|\cdot\|_N = \mathrm{aff}(\rank(\cdot)).$$
+        Finally,
+        \begin{equation}
+          \label{eq:prox-nuclear}
+          \forall \gamma > 0,\forall X\in \RR^{m\times n}, \prox_{\gamma\|\cdot\|_N}(X) = U\diag\left(\prox_{\gamma \|\cdot\|_1}(\sigma)\right)V^\top.
+        \end{equation}
+  \item Following section 1, we arrive at the problem
+
+        \begin{equation}
+          \begin{aligned}
+            \minimize\limits_{X\in\RR^{m\times n}} & \,\, \mu\|X\|_N + \dfrac{1}{2}\|P_{\Omega}(X) - P_{\Omega}(B)\|_F^2, \\
+            \mathrm{subject \,\, to}               & \,\, X\ge 0,
+          \end{aligned}
+          \tag{$P_3$}
+        \end{equation}
+
+        where $\Omega\subset\NN^2$ is an index set and $P_\Omega:\RR^{m\times n}\to \RR^{m\times n}$ such that
+        $$\forall X\in\RR^{m\times n}, P_{\Omega}(X)_{ij} = \begin{cases}
+            X_{ij} & \text{ if } (i,j) \in \Omega, \\
+            0      & \text{ otherwise}.
+          \end{cases}$$
+  \item To apply ADMM, we rewrite the equivalence of $(P_3)$
+        \begin{equation}
+          \begin{aligned}
+            \minimize\limits_{X\in\RR^{m\times n}} & \,\, \mu\|Y\|_N + \dfrac{1}{2}\|P_{\Omega}(X) - P_{\Omega}(B)\|_F^2 + \iota_{X\ge 0} (X), \\
+            \mathrm{subject \,\, to}               & \,\, X - Y = 0.
+          \end{aligned}
+          \tag{$P_3$}
+        \end{equation}
+        \begin{enumerate}[label = (\alph*)]
+          \item For each $\lambda > 0$, the augmented Lagrangian is given by
+                $$\L^\lambda(X,Y,Z) =  \mu\|Y\|_N + \dfrac{1}{2}\|P_{\Omega}(X) - P_{\Omega}(B)\|_F^2 + + \iota_{X\ge 0} (X) + \langle Z, X-Y\rangle + \dfrac{\lambda}{2}\|X-Y\|_F^2.$$
+
+        \end{enumerate}
+        Recall that for $f$ convex differentiable and $g\in \Gamma_0$, we have
+        $$\forall\lambda > 0, \mathrm{Argmin}(f+g) = \mathrm{Fix}\left(\prox_{\lambda g}\circ (\mathrm{Id} - \lambda\nabla f)\right).$$
+        In our case, $$f(X) = \dfrac{1}{2}\|P_{\Omega}(X) - P_{\Omega}(B)\|_F^2 + \langle Z, X-Y\rangle + \dfrac{\lambda}{2}\|X-Y\|_F^2$$
+        and $$g(X) = \iota_{P_+} (X),$$
+        where $P_+$ is the convex set of matrices whose all entries are nonnegative. We slightly abuse notation by denoting $P_+ = \proj_{P_+}$. Choose $\lambda = 1$, we can see that if $\nabla f(X) = 0$, then $P_+(X)$ is a fix point of $\prox_{\iota_{P_+}}\circ (\mathrm{Id} - \nabla f)$. Indeed,
+        $$\prox_{\iota_{P_+}}\circ (\mathrm{Id} - \nabla f)(X) = \prox_{\iota_{P_+}}(X) = P_+(P_+(X)) = P_+(X).$$
+        Therefore, $P_+(X) = \mathrm{Armin}(f+g)$. We have
+
+        $$\nabla f(X) = P_\Omega(X) - P_\Omega(B) + Z + \lambda(X-Y).$$
+
+        By setting $f(X) = 0$, we have following equivalences
+
+        $$P_{\Omega}((1+\lambda)X - B - \lambda Y + Z) + P_{\Omega^c}(\lambda X - \lambda Y + Z) = 0,$$
+
+        $$\begin{cases}
+            P_{\Omega}(X) = \dfrac{1}{1+\lambda} P_{\Omega}(B+\lambda Y - Z) \\
+            P_{\Omega^c}(X) = P_{\Omega^c}\left(Y - \dfrac{1}{\lambda}Z\right)
+          \end{cases}.
+        $$
+
+        In terms of the update rule, we have
+        \begin{align*}
+          X_{k+1}
+           & = P_+(P_{\Omega}(X_{k+1}) + P_{\Omega^c}(X_{k+1})) = P_+(P_{\Omega}(X_{k+1})) + P_+(P_{\Omega^c}(X_{k+1}))                                      \\
+           & = P_+\left(\dfrac{1}{1+\lambda} P_{\Omega}(B+\lambda Y_k - Z_k)\right) + P_+\left( P_{\Omega^c}\left(Y_k - \dfrac{1}{\lambda}Z_k\right)\right).
+        \end{align*}
+        Note that we can split the projection because the elements of $P_{\Omega}(X_{k+1})$ and $P_{\Omega^c}(X_{k+1})$ do not affect the other's. To get $Y_{k+1}$, we need
+
+        \begin{align*}
+                              & 0\in \partial_YL^\lambda(Y_{k+1})                                                                           \\
+          \Leftrightarrow\,\, & 0\in \partial(\mu\|Y_{k+1}\|_N) - Z_k + \lambda(Y_{k+1} - X_k)                                              \\
+          \Leftrightarrow\,\, & 0\in \partial\left(\dfrac{\mu}{\lambda}\|Y_{k+1}\|_N + Y_{k+1}\right) - \dfrac{1}{\lambda}Z_k - X_k         \\
+          \Leftrightarrow\,\, & X_k + \dfrac{1}{\lambda}Z_k \in \partial\left(\dfrac{\mu}{\lambda}\|\cdot\|_N + \mathrm{Id}\right)(Y_{k+1}) \\
+          \Leftrightarrow\,\, & Y_{k+1} \in \prox_{\frac{\mu}{\lambda}\|\cdot\|_N}\left(X_k + \dfrac{1}{\lambda}Z_k\right).
+        \end{align*}
+
+        We can use Equality \ref{eq:prox-nuclear} to further expand the rule.
+
+
+\end{enumerate}

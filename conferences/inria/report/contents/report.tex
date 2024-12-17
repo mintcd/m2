@@ -1,0 +1,102 @@
+%%TITRE
+\begin{center}
+    \textbf{\Large OPTIMAL CONTROL AND LARGE-SCALE OPTIMIZATION - LAURENT PFEIFFER} \\
+    \vspace{0.5cm}
+
+    Miniconference Report \\
+    CHAU Dang Minh
+\end{center}
+
+\begin{center}
+    \begin{minipage}{0.85\textwidth}
+        \textbf{Summary.} Dr. Laurent Pfeiffer, a current researcher at Inria working on optimal control, gave a review and extension on reinforcement learning and optimal control. Then he introduced an application in energy where continuous relaxation is used to approximate a discrete solution.
+    \end{minipage}
+\end{center}
+
+\section{Frank-Wolfe Algorithm}
+Consider the problem
+\begin{equation}
+    \inf\limits_{x\in K}f(x) \tag{$\mathcal{P}$}
+\end{equation}
+where $f$ is convex, continuously differentiable, with Lipschitz-continuous gradient and $K\subset\RR^n$ is convex and compact. We have the Frank-Wolfe algorithm as describe below. A general convergence result of the algorithm for difference step size selections in Banach space is given in \cite{xu2017convergence}.
+
+\begin{algorithm}
+    \caption{Frank-Wolfe Algorithm}
+    \label{alg:cap}
+    \begin{algorithmic}
+        \Require $x_0\in K$
+        \For {$k=0,1\ldots$}
+        \State $y_k = \argmin\limits_{y\in\RR^n}
+            \langle\nabla f(x_k), y\rangle$
+        \State $w_k=\dfrac{2}{k+2}$
+        \State $x_{k+1} = w_k y_k + (1-w_k)x_k$
+        \EndFor
+        \Ensure $x_k$
+    \end{algorithmic}
+\end{algorithm}
+
+Furthermore, when $K=K_1\times\ldots\times K_N$, we can write
+\begin{equation}
+    \langle\nabla f(x), y\rangle = \sum\limits_{i=1}^N \langle\nabla_{y_i} f(x), y_i\rangle
+\end{equation}
+
+and minimize each element independently.
+
+\section{Multi-agent Learning Model}
+Reinforcement learning and optimal control are capable of modeling exactly the same class of problems. In terms of optimal control, we consider the following conventions
+
+\begin{itemize}
+    \item A horizon $T$ and the time interval $\{0,1,2,\ldots, T\}$.
+    \item The set of states $\X$.
+    \item The set of controls $\U$.
+    \item The set of random outcomes $\Omega$.
+\end{itemize}
+
+Let $f:\X\times\U\times\Omega\to\X$ and $X_0$ be given. We define the development of the system as
+
+\begin{equation}
+    X_{t+1} = f(X_t, U_t, \psi_t), \,\,\,\,\, t = 0,\ldots, T-1,
+\end{equation}
+where $\psi_t, t = 0,\ldots, T-1$ are random turbulence. We assume that for each $t$, $U_t$ is independent of $\psi_{t+1},\ldots, \psi_t$. We aim to minimize
+
+\begin{equation}
+    \min\limits_{U_0,\ldots, U_{T-1}} \EE\left[\sum\limits_{t=1}^{T-1}\ell(X_t,U_t,\psi_t) + \phi(X_T)\right].
+\end{equation}
+
+This problem can be solve using dynamic programming, iterative methods, Monte-Carlo methods or a combination of them, which utilizes the cost function (or value function corresponding to a maximization problem) given as a Bellman equation
+
+\begin{equation}
+    J_t(x) = \EE\left[\ell(x, U_t,\psi_t) + J_{t+1}(X_{t+1})\left|X_t = x\right.\right]
+\end{equation}
+
+
+For a multi-agent problem, each cost function contributes to the total cost. Besides that, there is a social cost. Let $\X = \X_1\times\ldots\times\X_N$, we define the $N$-agent problem as
+
+\begin{equation}
+    \inf\limits_{x\in\X} J(x) = f\left(\dfrac{1}{N}\sum\limits_{i=1}^N J_i(x_i)\right) + \dfrac{1}{N}\sum\limits_{i=1}^N H_i(x_i) \tag{$\mathcal{P}_N$}
+\end{equation}
+
+When the state space $\X$ is discrete, it is difficult to optimize the function iteratively or combinatorially. Fortunately, if we replace each $x_i$ by a probability distribution $\mu_i\in\Delta(\X_i)$, we arrive at a continuous problem whose solution can be used as approximation to the original problem. In particular, we have
+
+\begin{equation}
+    \EE_{\mu_i}[J_i] = \int_{\X_i} J_i(x_i)\,\mathrm{d} \mu_i(x_i), \,\,\,\, \EE_{\mu_i}[H_i] = \int_{\X_i} H_i(x_i)\,\mathrm{d} \mu_i(x_i).
+\end{equation}
+
+Then the so-call relaxed cost function becomes
+\begin{equation}
+    \inf\limits_{x\in\X} \tilde{J}(x) = f\left(\dfrac{1}{N}\sum\limits_{i=1}^N \EE_{\mu_i}[J_i]\right) + \dfrac{1}{N}\sum\limits_{i=1}^N \EE_{\mu_i}[H_i] \tag{$\tilde{\mathcal{P}}_N$}
+\end{equation}
+
+The function $\tilde{J}$ is convex. Now we can apply Frank-Wolfe algorithm to solve $(\tilde{\mathcal{P}}_N)$. The following theorem gives the gap between two problems.
+
+\begin{theorem}
+    The exists $C > 0$ independent of $N$ such that
+    \begin{equation}
+        \mathrm{val}(\tilde{\mathcal{P}}_N) < \mathrm{val}(\mathcal{P}_N) < \mathrm{val}(\tilde{\mathcal{P}}_N) + \dfrac{C}{N}.
+    \end{equation}
+\end{theorem}
+
+We remark that, for larger $N$, the gap is smaller. With a solution to  $\tilde{\mathcal{P}}_N$, we can sample several solutions to $\mathcal{P}_N$ and take the best one.
+
+\section{Conclusion}
+Dynamic system control problems lie in the intersection of reinforcement learning and numerical optimization, and sometimes game theory. We had an opportunity to work with a lifelike problem, hence become more open to real-life problems.

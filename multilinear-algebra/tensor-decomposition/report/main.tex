@@ -1,0 +1,146 @@
+\documentclass[11pt,a4paper]{article}
+\usepackage{amssymb}
+\usepackage{amsmath}
+\usepackage{graphicx}
+\usepackage{amscd}
+\usepackage{vmargin}
+\usepackage{mathrsfs,color,comment}
+\usepackage{cases}
+\usepackage{xfrac}
+\usepackage{amsthm}
+\usepackage{parskip}
+\usepackage{mathtools}
+\usepackage{xparse}
+\usepackage{listings}
+\usepackage{biblatex}
+\usepackage{matlab-prettifier}
+\usepackage{nicematrix}
+\usepackage{bm}
+\usepackage{algorithm}
+\usepackage{algpseudocode}
+
+\renewcommand{\algorithmicrequire}{\textbf{Input:}}
+\renewcommand{\algorithmicensure}{\textbf{Output:}}
+
+\usepackage{macros}
+%%
+%%MARGES
+\setmarginsrb{1.2cm}{1.3cm}{1.2cm}{1.3cm}{0cm}{0.5cm}{0cm}{0.5cm}
+\newtheorem{lemma}{Lemma}
+\newtheorem*{lemmas}{Lemmas}
+\newtheorem{definition}{Definition}
+\newtheorem{theorem}{Theorem}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%% NOUVELLES COMMANDES
+
+\newcommand\norm[1]{\left\lVert#1\right\rVert}
+\newcommand\sym{\mathcal{S}}
+
+\newcommand{\scrP}{\mathscr{P}}
+
+
+
+\usepackage{titlesec}
+% \titleformat{\subsection}[runin]{\bfseries}{}{}{}[]
+\titleformat{\subsubsection}[runin]{\bfseries}{}{}{}[]
+
+%%EXERCICE
+\newcounter{exo}
+\newcounter{parti}
+
+\def\exercice%
+{\stepcounter{exo}\noindent{\bf Exercise \arabic{parti}.\arabic{exo}.} \ }%
+{\vspace{0,3cm}}
+
+\def\partie%
+{\stepcounter{parti} \noindent {\bf \arabic{parti}.} --- }%
+{\vspace{0,3cm}}
+
+\def\exercices%
+{\noindent{\bf Exercises.} \ }%
+{\vspace{0,3cm}}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%
+
+\def\NN{{\mathbb{N}}}
+\def\ZZ{{\mathbb{Z}}}
+\def\QQ{{\mathbb{Q}}}
+\def\RR{{\mathbb{R}}}
+\def\CC{{\mathbb{C}}}
+
+\DeclareMathOperator*{\argmin}{argmin}
+\DeclareMathOperator*{\argmax}{argmax}
+
+\newcommand{\rank}{\mathrm{rank}}
+\newcommand{\im}{\mathrm{Im}}
+
+\NewDocumentCommand{\myarrow}{sm}{
+  \IfBooleanTF{#1}{
+    \xrightarrow{#2}
+  }{
+    \xrightarrow{\mathmakebox[\minarrow]{#2}}
+  }
+}
+
+\addbibresource{refs.bib}
+
+
+%% DEBUT
+\usepackage[utf8]{inputenc}
+
+\pagestyle{empty}
+
+\setlength{\parindent}{0em}
+\renewcommand{\labelitemi}{\scriptsize$\blacksquare$}
+\makeatletter
+\renewcommand*\env@matrix[1][*\c@MaxMatrixCols c]{%
+  \hskip -\arraycolsep
+  \let\@ifnextchar\new@ifnextchar
+  \array{#1}}
+\makeatother
+\def\env@matrix{\hskip -\arraycolsep
+  \let\@ifnextchar\new@ifnextchar
+  \array{*\c@MaxMatrixCols c}}
+\begin{document}
+
+\thispagestyle{empty}
+%%ENTETE
+\begin{center}
+
+  \textsc{Facult\'e des Sciences et Techniques}  \hfill \textsc{Universit\'e de Limoges} \\
+  Applied Multilinear Algebra \hfill M2 -- Semester 1 -- 2024/2025 \\
+  \bigskip
+
+  %%TITRE
+  {\bf
+    \vspace{0.9cm}
+    % Exercise sheet n$^\circ$ 4\\
+    \vspace{0.2cm}
+    CHAU Dang Minh
+  }
+\end{center}
+\bigskip
+
+\vspace{7cm}
+
+\renewcommand{\arraystretch}{2}
+\begin{center}
+  \begin{tabular}{c}
+    \hline
+    {\textbf{{\Large  TENSOR DECOMPOSITIONS}}}     \\
+    {\textbf{{\Large  THEORY AND IMPLEMENTATION}}} \\
+    \hline
+  \end{tabular}
+\end{center}
+
+\vspace{0.5cm}
+\pagestyle{plain}
+\include{contents/report}
+\printbibliography
+
+\end{document}

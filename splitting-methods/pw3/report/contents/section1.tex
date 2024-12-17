@@ -1,0 +1,167 @@
+\section{Compressed sensing and cardinality minimization problems}
+
+Consider the problem
+
+\begin{equation}
+  \begin{aligned}
+    \minimize\limits_{x\in\RR^d} & \,\,\|x\|_0, \\
+    \mathrm{subject \,\, to}     & \,\, Ax = b,
+  \end{aligned}
+  \tag{$Q_1$}
+\end{equation}
+
+where $A\in\RR^{p\times d}$ (usually with $p\ll d$), $b\in\RR^p$ and
+$$\|x\|_0 = |\{i\in \{1,\ldots, d\} : x_i \ne 0\}|.$$
+
+
+\begin{enumerate}
+  \item Problem $(Q_1)$ is not convex because the objective is not convex. A counterexample is with $x=\begin{bmatrix}
+            0 \\1
+          \end{bmatrix}$ and $y=\begin{bmatrix}
+            1 \\0
+          \end{bmatrix}$. We have $\|x\|_0 = \|y\|_0 = 1$ and $\|\lambda x + (1-\lambda) y\|_0 = 2, \forall \lambda\in(0,1)$. Hence
+        $$\forall \lambda \in(0,1), \lambda \|x\|_0 + (1-\lambda) \|y\|_0 < \|\lambda x + (1-\lambda) y\|_0.$$
+        The function $\|\cdot\|_0$ is also not a norm because $2\|x\|_0 = 1$, instead of $2$.
+  \item We will prove that
+        $$\mathrm{aff}(\|\cdot\|_0 + \iota_{\overline{B}_{\infty}}) = \|\cdot\|_1 + \iota_{\overline{B}_{\infty}},$$
+        where $\overline{B}_{\infty} = \{x\in\RR^d : \|x\|_{\infty} \le 1\}$ in the following steps.
+        \begin{enumerate}[label=(\alph*)]
+          \item For all $y\in\RR^d, x\in \overline{B}_{\infty}$, we have
+                \begin{align*}
+                  \langle y,x\rangle - \|x\|_0
+                   & = \sum\limits_{x_i\ne 0} y_ix_i - \sum\limits_{x_i\ne 0}1 = \sum\limits_{x_i\ne 0} (y_ix_i - 1) \\
+                   & ^{(1)}\le \sum\limits_{x_i\ne 0} (|y_i|\cdot|x_i| - 1)                                          \\
+                   & ^{(2)} \le \sum\limits_{x_i\ne 0} (|y_i| - 1)                                                   \\
+                   & ^{(3)} \le \sum\limits_{x_i\ne 0} \max\{0, |y_i| - 1\}                                          \\
+                   & ^{(4)}\le \sum\limits_{i=1}^d \max\{0, |y_i| - 1\}                                              \\
+                   & = \sum\limits_{i=1}^d (|y_i| - 1)^+.
+                \end{align*}
+                In summary,
+                $$\langle y,x\rangle - \|x\|_0 \le \sum\limits_{i=1}^d (|y_i| - 1)^+.$$
+
+                Let us find out the conditions to get equality.
+
+                \begin{itemize}
+                  \item Equality in $(1)$ occurs when $\mathrm{sign}(x_i)\mathrm{sign}(y_i) \ge 0, \forall i\in\{1,\ldots, d\}$.
+                  \item Equality in $(2)$ occurs when $x \in \{-1,0,1\}^d$.
+                  \item Equality in $(3)$ occurs when $|y_i| \ge 1$ when $x_i \ne 0$.
+                  \item Equality in $(4)$ occurs when $|y_i| < 1$ when $x_i = 0$.
+                \end{itemize}
+
+
+
+          \item Let $g= \|\cdot\|_0 + \iota_{\overline{B}_{\infty}}$. For any $x\in\RR^d$, let $\hat{x}= \dfrac{x}{\|x\|_{\infty}}$, we have $\hat{x}\in \overline{B}_{\infty}$ and            $$\left\langle y,x\right\rangle - \|x\|_0 = \langle \|x\|_{\infty} y, \hat{x}\rangle - \left\|\hat{x}\right\|_0.$$ Hence,
+
+                $$ \sup\limits_{x\in\RR^d} (\langle y,x\rangle - \|x\|_0) = \sup\limits_{x\in\overline{B}_{\infty}} (\langle y,x\rangle - \|x\|_0).$$
+
+                Moreover, according the equality analysis in the previous question, the supremum is attained at $x$ such that
+
+                $$
+                  x_i = \begin{cases}
+                    0,                  & \mathrm{if } |y_i| < 1,   \\
+                    \mathrm{sign}(y_i), & \mathrm{if } |y_i| \ge 1. \\
+                  \end{cases}
+                $$
+
+                Therefore,
+                \begin{align*}
+                  g^*(y)
+                   & = \sup\limits_{x\in\RR^d} (\langle y,x\rangle - \|x\|_0 - \iota_{\overline{B}_{\infty}}(x)) \\
+                   & \le \sup\limits_{x\in\RR^d} (\langle y,x\rangle - \|x\|_0)                                  \\
+                   & = \sup\limits_{x\in\overline{B}_{\infty}} (\langle y,x\rangle - \|x\|_0)                    \\
+                   & = \sum\limits_{i=1}^d (|y_i| - 1)^+.
+                \end{align*}
+          \item For $x\in\overline{B}_{\infty}$, we have
+                \begin{align*}
+                  \langle x,y\rangle - g^*(y)
+                   & = \sum\limits_{i=1}^d \left(x_iy_i - (|y_i|-1)^+ \right)                                                                             \\
+                   & \le \sum\limits_{i=1}^d \left(|x_i|\cdot |y_i| - (|y_i|-1)^+ \right)                                                                 \\
+                   & = \sum\limits_{|y_i| < 1} |x_i|\cdot |y_i| + \sum\limits_{|y_i| \ge 1}\left( |x_i|\cdot |y_i| - |y_i| + 1\right)                     \\
+                   & \le \sum\limits_{|y_i| < 1} |x_i| + \sup\limits_{|y_i| \ge 1}\left( |y_i|(|x_i|-1) + 1\right)                                        \\
+                   & \le \sum\limits_{|y_i| < 1} |x_i| + \sum\limits_{|y_i| \ge 1}\left( |x_i|-1 + 1\right)                           & (|x_i| - 1 \le 0) \\
+                   & = \|x\|_1.
+                \end{align*}
+                In summary,
+                $$\langle x,y\rangle - g^*(y) \le \|x\|_1.$$
+                Equality occurs when $y_i = \mathrm{sign}(x_i)$.
+          \item From the previous question, $\sup\limits_{y\in\RR^d}(\langle x,y\rangle - g^*(y))$ is attainable and equal to $\|x\|_1$ for any $x\in \overline{B}_{\infty}$. Therefore,
+                $$\forall x\in\overline{B}_{\infty}, g^{**}(x) = \|x\|_1.$$
+          \item Choose $x_i = n\mathrm{sign}(y_i)$, we have $\lim\limits_{n\to\infty}(\langle x,y\rangle - g^*(y)) = \infty$. Hence,
+                $$\forall x\in\RR^d\setminus\overline{B}_{\infty}, g^{**}(x) = \infty.$$
+          \item To this point, we deduce that $g^{**} = \|\cdot\|_1 + \iota_{\overline{B}_{\infty}}$.
+          \item From the biconjugate theorem, $g^{**} = \mathrm{aff}(g)$, we have
+                $$\|\cdot\|_1 + \iota_{\overline{B}_{\infty}} = \mathrm{aff}(\|\cdot\|_0 + \iota_{\overline{B}_{\infty}}).$$
+                Therefore,
+                $$\forall x\in\overline{B}_{\infty}, \|\cdot\|_1  = \mathrm{aff}(\|\cdot\|_0).$$
+          \item From the previous question, we have
+                $$\forall x\in\overline{B}_{\infty}, \|x\|_1 = \sup\{g(x) : g \text{ is affine and } g \le \|\cdot\|_0\}.$$
+                The following sentences are equivalent to this sentence. Given $M > 0$,
+                $$\forall x\in\overline{B}_{\infty}, \dfrac{1}{M}\|x\|_1 = \sup\{g(x) : g \text{ is affine and } g \le \|M\cdot\|_0\}.$$
+                $$\forall x\in\overline{B}^M_{\infty}, \dfrac{1}{M}\|x\|_1 = \sup\{g(x) : g \text{ is affine and } g \le \|\cdot\|_0\}.$$
+                $$\forall x\in\overline{B}^M_{\infty}, \dfrac{1}{M}\|\cdot\|_1 = \mathrm{aff}(\|\cdot\|_0).$$
+        \end{enumerate}
+  \item Thanks to the affine hull calculation, we can relax the problem into minimizing $\|\cdot\|_1$ instead of $\|\cdot\|_0$. As there is noise in reality, we consider $\theta > 0$ and solve the following problem instead
+
+        \begin{equation}
+          \begin{aligned}
+            \minimize\limits_{x\in\RR^d} & \,\,\|x\|_1,                  \\
+            \mathrm{subject \,\, to}     & \,\, \|Ax - b\|_2 \le \theta.
+          \end{aligned}
+          \tag{$Q_3$}
+        \end{equation}
+
+        We will prove that for an appropriate choice of parameters $\theta$ and $\mu$, $(Q_2)$ is equivalent to
+
+        \begin{equation}
+          \begin{aligned}
+            \minimize\limits_{x\in\RR^d} & \,\,\mu\|x\|_1 + \dfrac{1}{2} \|Ax - b\|_2 ^2.
+          \end{aligned}
+          \tag{$Q_4$}
+        \end{equation}
+
+        Indeed, if $x^*$ is a solution to $(Q_3)$, then there exists $\lambda \ge 0$ such that
+
+        $$0\in \partial\left(\|\cdot\|_1 + \dfrac{\lambda}{2}(\|A\cdot - b\|_2^2 - \theta^2)\right)(x^*) = \partial\left(\dfrac{1}{\lambda}\|\cdot\|_1 + \dfrac{1}{2}\|A\cdot - b\|_2^2\right)(x^*).$$
+
+        Let $\mu = \dfrac{1}{\lambda}$. Since $\mu\|\cdot\|_1 + \dfrac{1}{2}\|A\cdot - b\|_2^2$ is convex, we have
+        $$x^* = \argmin\limits_{x\in\RR^d}\left(\mu\|x\|_1 + \dfrac{1}{2}\|Ax - b\|_2^2\right).$$
+        Hence $x^*$ is a solution to $(Q_4)$. Conversely, let $x^*$ be a solution to $(Q_4)$. Since the objective of $(Q_4)$ is convex, this is the unique solution. Let $\theta = \|Ax^* - b\|$. Suppose that there exists $\hat{x} \ne x^*$ to be a solution to $(Q_3)$, i.e. $\|\hat{x}\|_1 < \|x^*\|$ and $\|A\hat{x} - b\| \le \theta$. Then $\hat{x}$ is another solution to $(Q_4)$, which is a contradiction. Therefore, $x^*$ is a solution to $(Q_3)$.
+  \item To apply the ADMM algorithm, we finally rewrite $(Q_4)$ as
+
+        \begin{equation}
+          \begin{aligned}
+            \minimize\limits_{x\in\RR^d} & \,\,\mu\|y\|_1 + \dfrac{1}{2} \|Ax - b\|_2 ^2. \\
+            \mathrm{subject \,\, to}     & \,\, x - y = 0.
+          \end{aligned}
+          \tag{$Q_3$}
+        \end{equation}
+
+        The augmented Lagrangian $L^\lambda : \RR^d \times \RR^d \times \RR^d \to \RR$ is
+        $$L^\lambda(x,y,z) = \mu\|y\|_1 + \dfrac{1}{2} \|Ax - b\|_2 ^2 + \langle z, x-y\rangle + \dfrac{\lambda}{2}\|x-y\|_2^2.$$
+
+        Updates in ADMM follow
+
+        $$\begin{cases}
+            x_{k+1} \in \argmin\limits_{x}\partial_y L^\lambda(x, y_k, z_k) \\
+            y_{k+1} \in \argmin\limits_{y} L^\lambda(x_k, y, z_k)           \\
+            z = z + \lambda(x-y).
+          \end{cases}$$
+
+        Note that $L^\lambda$ is convex in terms of $x$ and $y$ the minimum is attained at the points where subderivative contains zero. We have
+
+        $$\nabla_x L^\lambda = A^\top(Ax - b) + z + \lambda(x-y).$$
+
+        Therefore, the update for $(x_k)$ satisfies $A^\top(Ax_{k+1} - b) + z + \lambda(x_{k+1}-y_{k}) = 0$. Equivalently,
+
+        $$x_{k+1} = (\lambda I + A^\top A)^{-1}(A^\top b + \lambda y_k - z).$$
+
+        On the other hand,
+        $$\partial_y L^\lambda = \partial_{y}(\mu\|y\|_1) - z + \lambda(y-x).$$
+
+        The update for $(y_k)$ satisfies $0 \in \partial_{y}(\mu\|\cdot\|_1)(y_{k+1}) - z + \lambda(y_{k+1} - x_k)$. Equivalently,
+
+        $$x_k + \dfrac{1}{\lambda}z \in \left(\partial_{y}\left(\dfrac{\mu}{\lambda}\|\cdot\|_1\right) + \mathrm{Id}\right)(y_{k+1}),$$
+
+        $$y_{k+1} \in \mathrm{prox}_{\frac{\mu}{\lambda}\|\cdot\|_1}\left(x_k + \dfrac{1}{\lambda}z\right).$$
+
+\end{enumerate}

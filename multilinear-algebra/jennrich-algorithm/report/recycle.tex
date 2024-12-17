@@ -1,0 +1,49 @@
+Apply Step 1 of the above Gaussian elimination to the augmented matrix $(A|I_n)$, we have
+
+$$(A|I_n) = \left( 
+    \begin{array}{ccccc|ccccc}
+        1 & 1 & 1 & \cdots & 1 & 1 & 0 & 0 & \cdots & 0 \\
+     1 & 2 & 2 & \cdots & 2 & 0 & 1 & 0 & \cdots & 0\\
+     1 & 2 & 3 & \cdots & 3 & 0 & 0 & 1 & \cdots & 0\\
+     \vdots & \vdots & \vdots & \ddots & \vdots & \vdots & \vdots & \vdots & \ddots & \vdots\\
+     1 & 2 & 3 & \cdots & n & 0 & 0 & 0 & \cdots & 1\\
+    \end{array}\right)
+    \longrightarrow 
+    \left(\begin{array}{ccccc|ccccc}
+    1 & 1 & 1 & \cdots & 1 & 1 & 0 & 0 & \cdots & 0 \\
+     0 & 1 & 1 & \cdots & 1 & -1 & 1 & 0 & \cdots & 0\\
+     0 & 0 & 1 & \cdots & 1 & 0 & -1 & 1 & \cdots & 0\\
+     \vdots & \vdots & \vdots & \ddots & \vdots & \vdots & \vdots & \vdots & \ddots & \vdots\\
+     0 & 0 & 0 & \cdots & 1 & 0 & 0 & 0 & \cdots & 1\\
+    \end{array}\right).$$
+
+    Since we got an upper triangular matrix after this step, we have $$U=\begin{pmatrix}
+     1 & 1 & 1 & \cdots & 1\\
+     0 & 1 & 1 & \cdots & 1\\
+     0 & 0 & 1 & \cdots & 1\\
+     \vdots & \vdots & \vdots & \ddots & \vdots\\
+     0 & 0 & 0 & \cdots & 1\\
+ \end{pmatrix}$$ and $L^{-1}A=U$. Hence $L^{-1}I_n=  L^{-1}= \begin{pmatrix}
+     1 & 0 & 0 & \cdots & 0 \\
+     -1 & 1 & 0 & \cdots & 0\\
+     0 & -1 & 1 & \cdots & 0\\
+     \vdots & \vdots & \vdots & \ddots & \vdots\\
+     0 & 0 & 0 & \cdots & 1\\
+ \end{pmatrix}$
+
+\begin{itemize}
+\renewcommand{\labelitemi}{\scriptsize$\blacksquare$}
+    \item When $n=1$, we have 
+    $$\begin{pmatrix}
+        \sqrt{2}
+    \end{pmatrix}
+        \mathbf{y}
+   = 2 \Leftrightarrow \mathbf{y}=\begin{pmatrix}
+        \sqrt{2}
+    \end{pmatrix},$$ 
+    $$\begin{pmatrix}
+        \sqrt{2}
+    \end{pmatrix}\mathbf{x}=  \mathbf{y} \Leftrightarrow \mathbf{x} =\begin{pmatrix}
+        1
+    \end{pmatrix}$$.
+\end{itemize}
