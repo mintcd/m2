@@ -1,0 +1,187 @@
+\section{Watermarking Overview}
+\subsection{A History of Watermarks}
+\begin{frame}{A History of Watermarks}
+    \begin{itemize}
+        \item Watermarking is the practice of altering a work to embed a message about that work.
+        \item Paper watermarks first appeared in Italy in 1282
+        \item Used with precise purposes by 18th century: trademarks and manufacturing records.
+    \end{itemize}
+\end{frame}
+
+
+\subsection{Watermarking Models}
+\begin{frame}{Watermarking Models}
+    Watermark types
+    \begin{itemize}
+        \item Visible: insert a logotype or a text into the image
+        \item Invisible: embed an imperceptible signal into the image
+    \end{itemize}
+\end{frame}
+
+\begin{frame}{Visible Watermarking}
+    Requirements
+    \begin{itemize}
+        \item Should be perceptible in both gray and colored image
+        \item Should be perceptible in pixels with different characteristics: texture, plain and edge
+        \item Should not be too obtrusive
+        \item Should be robust against several common attacks
+        \item Watermark embedding process should be automatic for kinds of images.
+    \end{itemize}
+\end{frame}
+
+\begin{frame}{Visible Watermarking - An Example}
+    The watermarked image is obtained pixel-by-pixel by
+    $$p'(i,j)=p(i,j)+\alpha
+    (i,j)w(i,j),$$
+    where
+    \begin{itemize}
+        \item $p(i,j)$ is the original pixel
+        \item $\alpha(i,j)$ is the watermark strength
+        \item $w(i,j)\in\{0,1\}$ is the watermark value
+    \end{itemize}
+\end{frame}
+
+\begin{frame}{Visible Watermarking - An Example}
+    \begin{itemize}
+        \item The gray scale resolution of human
+eyes is decreased in higher and lower gray conditions.
+        \item Watermark strength should match.
+
+        \begin{figure}
+            \centering
+            \includegraphics[width=0.5\linewidth]{image.png}
+            \caption{The gray scale resolution of human eyes}
+            \label{fig:enter-label}
+        \end{figure}
+    \end{itemize}
+\end{frame}
+
+\begin{frame}{Visible Watermarking - An Example}
+    \begin{itemize}
+        \item Approximate the watermark strength by lines \cite{yu2013new}
+        $$\alpha = \left\{\begin{array}{l}      -\dfrac{1}{8}p+6,\,\,p\in[0,32]\\
+   -\dfrac{1}{32}p+3,\,\,p\in[33,64]\\
+   \dfrac{1}{96}p+\dfrac{1}{3},\,\,p\in[65,255]\\\end{array}\right.$$
+
+    \end{itemize}
+\end{frame}
+
+
+\begin{frame}{Visible Watermarking - An Example}
+    \begin{figure}
+        \centering
+        \includegraphics[width=0.7\linewidth]{img/visible-watermark.png}
+        \caption{Watermarked images by \cite{yu2013new}}
+        \label{fig:enter-label}
+    \end{figure}
+\end{frame}
+
+
+% \begin{frame}{Invisible Watermarking}
+% Broad groups: communication-based and geometric
+
+%     \begin{figure}
+%     \centering
+%     \includegraphics[width=0.9\linewidth]{img/communication-based.png}
+%     \caption{Watermarking as communications with side information at the transmitter}
+%     \label{fig:enter-label}
+% \end{figure}
+% \end{frame}
+
+% \begin{frame}{Invisible Watermarking}
+% Broad groups: communication-based and geometric
+%     \begin{figure}
+%         \centering
+%         \includegraphics[width=0.9\linewidth]{img/extractor.png}
+%         \caption{Geometric watermarking: General two-step outline of a watermark detector.}
+%         \label{fig:enter-label}
+%     \end{figure} 
+% \end{frame}
+
+% \begin{frame}{Invisible Watermarking}
+% Broad groups: communication-based and geometric
+%    \begin{figure}
+%        \centering
+%        \includegraphics[width=0.9\linewidth]{img/embedder.png}
+%        \caption{Geometric watermarking: General three-step outline of a watermark embedder.
+% }
+%        \label{fig:enter-label}
+%    \end{figure}
+% \end{frame}
+
+% \subsection{Visible Watermark Removal}
+% \begin{frame}{Visible Watermark Removal}
+% Large-Scale Visible Watermark Detection and Removal with Deep
+% Convolutional Networks \cite{cheng2018large} (PRCV - 2018)
+%    \begin{figure}
+%        \centering
+%        \includegraphics[width=0.9\linewidth]{img/r1pipeline.png}
+%        \caption{The proposed pipeline}
+%        \label{fig:enter-label}
+%    \end{figure}
+% \end{frame}
+
+% \begin{frame}{Visible Watermark Removal}
+%    \begin{figure}
+%        \centering
+%        \includegraphics[width=0.9\linewidth]{img/r1architechture.png}
+%       \caption{The proposed architecture}
+%        \label{fig:enter-label}
+%    \end{figure}
+% \end{frame}
+
+% \begin{frame}{Visible Watermark Removal}
+%    \begin{figure}
+%        \centering
+%        \includegraphics[width=0.9\linewidth]{img/r1result.png}
+%        \caption{Result of watermark removal}
+%        \label{fig:enter-label}
+%    \end{figure}
+% \end{frame}
+
+% \begin{frame}{Visible Watermark Removal}
+% Generative adversarial networks model for visible watermark removal \cite{cao2019generative} (IET Image Processing - 2019)
+%    \begin{figure}
+%        \centering
+%        \includegraphics[width=0.9\linewidth]{img/r2architechture.png}
+%        \caption{The proposed architecture}
+%        \label{fig:enter-label}
+%    \end{figure}
+% \end{frame}
+
+% \begin{frame}{Visible Watermark Removal}
+%    \begin{figure}
+%        \centering
+%        \includegraphics[width=0.9\linewidth]{img/r2result.png}
+%        \caption{Result of watermark removal}
+%        \label{fig:enter-label}
+%    \end{figure}
+% \end{frame}
+
+% \begin{frame}{Visible Watermark Removal}
+% Blind Visual Motif Removal from a Single Image \cite{hertz2019blind} (CVPR - 2019)
+%    \begin{figure}
+%        \centering
+%        \includegraphics[width=0.9\linewidth]{img/r3pipeline.png}
+%        \caption{The proposed pipeline}
+%        \label{fig:enter-label}
+%    \end{figure}
+% \end{frame}
+
+% \begin{frame}{Visible Watermark Removal}
+%    \begin{figure}
+%        \centering
+%        \includegraphics[width=0.75\linewidth]{img/r3result.png}
+%        \caption{Output visualization. Top: test images embedded with unseen motifs. Middle: our reconstructed background images. Bottom: our reconstructed visual motifs. More results are presented in the supplementary material}
+%        \label{fig:enter-label}
+%    \end{figure}
+% \end{frame}
+
+% \begin{frame}{Visible Watermark Removal}
+%    \begin{figure}
+%        \centering
+%        \includegraphics[width=0.9\linewidth]{img/r3result2.png}
+%        \caption{Result of watermark removal}
+%        \label{fig:enter-label}
+%    \end{figure}
+% \end{frame}

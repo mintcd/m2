@@ -1,0 +1,35 @@
+\section{Sampling techniques}
+
+\setcounter{footnote}{1} 
+\begin{frame}{Introduction}
+    \begin{figure}
+        \centering
+        \includegraphics[width = 0.8\textwidth]{img/sampling.png}
+        \caption{Diffusion model includes two process, i.e. \textbf{Forward process} and \textbf{Reverse process}. In which, we need to sample data from noise in \textbf{Reverse process} \footnotemark[1]}
+        \label{fig:enter-label}
+    \end{figure}
+    \footnotetext{Yang, Ling, et al. "Diffusion models: A comprehensive survey of methods and applications."}
+\end{frame}
+
+\subsection{Learning-free Sampling}
+\begin{frame}{Learning-free Sampling}
+    \begin{enumerate}
+        \item Watermark embedding and removal
+        \item Predominant diffusion models
+        \item Sampling techniques: learning-free and learning-free
+    \end{enumerate}
+\end{frame}
+
+\subsection{Learning-based Sampling}
+\setcounter{footnote}{2} 
+\begin{frame}{Learning-based Sampling}
+    \begin{itemize}
+        \item Truncated Diffusion
+    \end{itemize}
+    \begin{figure}
+        \centering
+        \includegraphics[width=\linewidth]{img/truncated.png}
+        \caption{Compare Early-Stopped DDPM (ES-DDPM) with the full-length DDPM \footnotemark[2]}
+    \end{figure}
+    \footnotetext{Lyu, Zhaoyang, et al. "Accelerating diffusion models via early stop of the diffusion process."}
+\end{frame}

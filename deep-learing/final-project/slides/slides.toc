@@ -1,0 +1,7 @@
+\beamer@sectionintoc {1}{Introduction}{3}{0}{1}
+\beamer@sectionintoc {2}{Dataset}{6}{0}{2}
+\beamer@sectionintoc {3}{Approaches}{11}{0}{3}
+\beamer@subsectionintoc {3}{1}{Recurrent Neural Networks}{12}{0}{3}
+\beamer@subsectionintoc {3}{2}{Deep Reinforcement Learning}{17}{0}{3}
+\beamer@subsectionintoc {3}{3}{Comparison}{19}{0}{3}
+\beamer@sectionintoc {4}{Conclusion and Future Work}{21}{0}{4}

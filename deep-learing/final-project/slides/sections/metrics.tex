@@ -1,0 +1,11 @@
+\section{Metrics}
+\begin{frame}{Fréchet inception distance (FID)}
+The FID between two distributions $p_1$ and $p_2$ is 
+$$d^2_F(p_1,p_2)=||\mu_1-\mu_2||^2+\mathrm{tr}(\Sigma_1+\Sigma_2-2(\Sigma_1\Sigma_2)^\frac{1}{2}),$$
+where $\mu_i$ and $\Sigma_i$ is the mean and covariance.
+\end{frame}
+\begin{frame}{Peak signal-to-noise ratio (PSNR)}
+    For an $m\times n$ image $I$ and its noisy approximation $K$,
+    $$MSE = \dfrac{1}{mn}\sum\limits_{i=0}^{m-1}\sum\limits_{j=0}^{n-1}[I(i,j)-K(i,j)]^2.$$
+    $$PSNR = 10\log_{10}\left(\dfrac{MAX_I^2}{MSE}\right)$$
+\end{frame}

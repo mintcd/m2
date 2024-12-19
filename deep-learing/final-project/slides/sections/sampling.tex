@@ -1,0 +1,27 @@
+\section{Efficient Sampling}
+
+\begin{frame}{Motivation}
+\begin{itemize}
+    \item Generating samples from diffusion models needs iterative approaches that involve a large number of evaluation step.
+    \item We want to speed up the sampling process while also improving quality of the resulting samples
+\end{itemize}
+\begin{figure}
+    \centering
+    \includegraphics[width = 0.7\textwidth]{img/sampling.png}
+    \label{fig:enter-label}
+\end{figure}
+
+\end{frame}
+
+\begin{frame}{Efficient Sampling}
+There are two main categories of efficient sampling methods
+\begin{enumerate}
+    \item Learning-free: SDE with adaptive step size, ODE solvers.
+    \item Learning-based
+    \begin{itemize}
+        \item Optimized Discretization
+        \item Truncated Diffusion
+        \item Knowledge Distillation
+    \end{itemize}
+\end{enumerate}
+\end{frame}

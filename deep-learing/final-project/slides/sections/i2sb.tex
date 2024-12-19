@@ -1,0 +1,56 @@
+\section{Inpainting model}
+\setcounter{footnote}{1} 
+
+\begin{frame}{Ideas}
+\begin{figure}
+    \centering
+    \includegraphics[width=0.5\linewidth]{img/i2sb_method.png}
+    \caption{I$^2$SB sampling method\footnotemark[1]}
+    \label{fig:original}
+\end{figure}
+\footnotetext{Liu, Guan-Horng, et al. "I$^2$SB: Image-to-Image Schr\" odinger Bridge}
+\end{frame}
+
+\begin{frame}{Theory}
+Instead of forward and backward SDEs
+$$\begin{cases}
+    dX_t = f_t\,\mathrm{d}t + \sqrt{\beta_t}\,\mathrm{d}W_t,&\,\,\, X_0\sim p_{\mathcal{A}}\\
+    dX_t = [f_t - \beta_t\nabla\log p(X_t,t)]\,\mathrm{d}t-\sqrt{\beta_t}\,\mathrm{d}\overline{W_t},&\,\,\, X_1\sim \mathcal{N}(0,I).
+\end{cases}$$
+
+Schr\"odinger Bridge chooses $\Psi$ and $\hat{\Psi}$ satisfying specific conditions such that
+
+$$\begin{cases}
+    dX_t = [f_t + \beta_t\nabla\log\Psi(X_t,t)]\,\mathrm{d}t + \sqrt{\beta_t}\,\mathrm{d}W_t,&\,\,\, X_0\sim p_{\mathcal{A}}\\
+    dX_t = [f_t - \beta_t\nabla\log\hat{\Psi}(X_t,t)]\,\mathrm{d}t-\sqrt{\beta_t}\,\mathrm{d}\overline{W_t},&\,\,\, X_1\sim p_{\mathcal{B}}.
+\end{cases}$$
+\end{frame}
+
+\begin{frame}{Theory}
+\begin{figure}
+    \centering
+    \includegraphics[width=0.7\linewidth]{img/resources.png}
+    \caption{Resources to run diffusion-based models\footnotemark[1]}
+    \label{fig:original}
+\end{figure}
+\footnotetext{Liu, Guan-Horng, et al. "I$^2$SB: Image-to-Image Schr\" odinger Bridge}
+\end{frame}
+
+\begin{frame}{Theory}
+    It is proved that $\Psi$ and $\hat{\Psi}$ are the score functions of the SDEs
+    $$\begin{cases}
+        dX_t = f_t(X_t)\,\mathrm{d}t + \sqrt{\beta_t}\,\mathrm{d}W_t,&\,\,\, X_0\sim \hat{\Psi}(\cdot,0)\\
+        dX_t = f_t(X_t)\,\mathrm{d}t + \sqrt{\beta_t}\,\mathrm{d}\overline{W}_t,&\,\,\, X_1\sim \Psi(\cdot,1).
+    \end{cases}$$
+However, $\hat{\Psi}(\cdot,0)$ and $\Psi(\cdot,1)$ are intractable. Choosing a specific class of them overcomes this.
+\end{frame}
+
+\begin{frame}{Theory}
+\begin{figure}
+    \centering
+    \includegraphics[width=0.6\linewidth]{img/comparision.png}
+    \caption{Comparison with others method\footnotemark[1]}
+    \label{fig:original}
+\end{figure}
+\footnotetext{Liu, Guan-Horng, et al. "I$^2$SB: Image-to-Image Schr\" odinger Bridge}
+\end{frame}

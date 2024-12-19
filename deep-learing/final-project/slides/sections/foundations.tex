@@ -1,0 +1,92 @@
+\section{Foundations of Diffusion Models}
+\subsection{Denoising Probabilistic Diffusion Models}
+
+\begin{frame}{Denoising Probabilistic Diffusion Models}
+
+Modeled as Markov chains\\
+\textbf{Forward process}\\
+For each $\mathbf{x}_0\sim q(\mathbf{x}_0)$, sample
+        \begin{align}
+            q(\mathbf{x}_t|\mathbf{x}_{t-1})&=\mathcal{N}(x_t;\sqrt{1-\beta_t}x_{t-1}, \beta_t),\,\,\,\,\beta_t\in(0,1)\\
+            \text{e.q. } \mathbf{x}_t&=\sqrt{1-\beta_t}x_{t-1}+\sqrt{\beta_t}\epsilon_{t-1},\,\,\,\,\epsilon_{t-1}\sim\mathcal{N}(0,\mathbf{I})
+        \end{align}
+\end{frame}
+
+\begin{frame}{Forward Process}
+\textbf{1.} $\mathbf{x}_t$ tends to the standard Gaussian when $t\to\infty$.\\
+Let $\alpha_t=1-\beta_t$,
+\begin{align*}
+ \mathbf{x}_t
+ &=\sqrt{\alpha_t} \mathbf{x}_{t-1}+\sqrt{1-\alpha_t}\epsilon_{t-1}\\
+ &=\sqrt{\alpha_t}(\sqrt{\alpha_{t-1}} \mathbf{x}_{t-2}+\sqrt{1-\alpha_{t-1}}\epsilon_{t-2})+\sqrt{1-\alpha_t}\epsilon_{t-1}\\
+  &=\sqrt{\alpha_t\alpha_{t-1}} \mathbf{x}_{t-2}+[\sqrt{\alpha_t(1-\alpha_{t-1})}\epsilon_{t-2}+\sqrt{1-\alpha_t}\epsilon_{t-1}]\\
+ &= \sqrt{\alpha_t\alpha_{t-1}} \mathbf{x}_{t-2}+ \sqrt{1-\alpha_t\alpha_{t-1}}\overline{\epsilon}_{t-2},\,\,\,\,\overline{\epsilon}_{t-2}\sim\mathcal{N}(0,\mathbf{I})\\
+ &\vdots\\
+ &=\sqrt{\prod\limits_{i=1}^t\alpha_t}\mathbf{x}_{0}+\sqrt{1-\prod\limits_{i=1}^t\alpha_t}\overline{\epsilon}_0,\,\,\,\,\overline{\epsilon}_0\sim\mathcal{N}(0,\mathbf{I})\to \overline{\epsilon}_0
+\end{align*}
+\end{frame}
+
+\begin{frame}{Forward Process}
+\textbf{2.} Calculation of the joint distribution
+\begin{align*}    
+q(\mathbf{x}_1,\mathbf{x}_0)
+&=q(\mathbf{x}_1|\mathbf{x}_0)q(\mathbf{x}_0)\\
+q(\mathbf{x}_2,\mathbf{x}_1,\mathbf{x}_0)
+&=q(\mathbf{x}_2|\mathbf{x}_1,\mathbf{x}_0)q(\mathbf{x}_1,\mathbf{x}_0)\\
+&=q(\mathbf{x}_2|\mathbf{x}_1)q(\mathbf{x}_1|\mathbf{x}_0)q(\mathbf{x}_0)\\
+&\vdots\\
+q(\mathbf{x}_{0:T})&=\prod\limits_{i=1}^Tq(\mathbf{x}_t|\mathbf{x}_{t-1})q(\mathbf{x}_0)
+\end{align*}
+\end{frame}
+
+
+\begin{frame}{Reverse Process}
+\begin{align}
+    \mathbf{x}_T&\sim p_\theta(\mathbf{x}_T)\triangleq\mathcal{N}(0,\mathbf{I})\\
+    p_\theta(\mathbf{x}_{t-1}|\mathbf{x}_t) &= \mathcal{N}(\mathbf{x}_{t-1};\mathbf{x}_t,\mu_\theta(\mathbf{x}_t,t),\Sigma_\theta(\mathbf{x}_t,t))\\
+    p_\theta(\mathbf{x}_{0:T})&=\prod\limits_{i=1}^T p_\theta(\mathbf{x}_{t-1}|\mathbf{x}_t)p_\theta(\mathbf{x}_T)
+\end{align}
+\end{frame}
+
+\begin{frame}{Loss Function}
+\begin{align*}
+    KL(q(\mathbf{x}_{0:T})||p_\theta(\mathbf{x}_{0:T})) &= \mathbb{E}_{q(\mathbf{x}_{0:T})}\left[\log\dfrac{q(\mathbf{x}_{0:T})}{p_\theta(\mathbf{x}_{0:T})}\right]\\
+   &= \mathbb{E}_{q(\mathbf{x}_{0:T})}\left[\log\dfrac{q(\mathbf{x}_{1:T}|\mathbf{x}_0)}{p_\theta(\mathbf{x}_{0:T})}\right]+\mathrm{const}\\
+   &=-\mathbb{E}_{q(\mathbf{x}_0)}\left[\mathbb{E}_{q(\mathbf{x}_{1:T}|\mathbf{x}_0)}\left[\log\dfrac{p_\theta(\mathbf{x}_{0:T})}{q(\mathbf{x}_{1:T}|\mathbf{x}_0)}\right]\right]+\mathrm{const}\\
+   &\ge-\mathbb{E}_{q(\mathbf{x}_0)}\left[\log\mathbb{E}_{q(\mathbf{x}_{1:T}|\mathbf{x}_0)}\left[\dfrac{p_\theta(\mathbf{x}_{0:T})}{q(\mathbf{x}_{1:T}|\mathbf{x}_0)}\right]\right]+\mathrm{const}\\
+\end{align*}
+
+\end{frame}
+
+\begin{frame}{Loss Function}
+\begin{align*}
+   \mathcal{L}(\theta)&\ge-\mathbb{E}_{q(\mathbf{x}_0)}\left[\log\mathbb{E}_{q(\mathbf{x}_{1:T}|\mathbf{x}_0)}\left[\dfrac{p_\theta(\mathbf{x}_{0:T})}{q(\mathbf{x}_{1:T}|\mathbf{x}_0)}\right]\right]\\
+   &=-\mathbb{E}_{q(\mathbf{x}_0)}\left[\log\int q(\mathbf{x}_{1:T}|\mathbf{x}_0)\dfrac{p_\theta(\mathbf{x}_{0:T})}{q(\mathbf{x}_{1:T}|\mathbf{x}_0)}\,\mathrm{d}\mathbf{x}_{1:T} \right]\\
+   &=-\mathbb{E}_{q(\mathbf{x}_0)}\left[\log p_\theta(\mathbf{x}_{0})\right]
+\end{align*}
+
+Minimizing KL divergence is equivalent to minimizing negative log-likelihood. The KL divergence can be separated into the sum of several divergences.
+\end{frame}
+
+
+\subsection{Score-based Generative Models}
+\begin{frame}{Score-matching technique}
+    \begin{enumerate}
+        \item We can sample $p_{\text{data}}(\mathbf{x})$ iteratively based on the score function $\nabla_\mathbf{x}\log p_{\text{data}}(\mathbf{x})$
+        \item The loss function of the estimated score function 
+        $$\mathcal{L}(\theta)=\dfrac{1}{2}\mathbb{E}_{p_{\text{data}}}[||\nabla_\mathbf{x}\log p(\mathbf{x},\theta)-\nabla_\mathbf{x}\log p_{\text{data}}(\mathbf{x})||^2_2]$$
+        can be calculated based on the dataset.
+        \item Summing up the loss function for each diffusing step yields better results.
+    \end{enumerate}
+\end{frame}
+
+\subsection{Generalization by SDE}
+
+\begin{frame}{Generalization by SDE}
+    \begin{enumerate}
+        \item Forward: $\mathrm{d}\mathbf{x}=\mathbf{f}(\mathbf{x},t)\,\mathrm{d}t+g(t)\,\mathrm{d}\mathbf{w}$
+        \item Reverse: $\mathrm{d}\mathbf{x}=[\mathbf{f}(\mathbf{x},t)-g^2(t)\nabla_\mathbf{x}\log q_t(\mathbf{x})]\,\mathrm{d}t+g(t)\,\mathrm{d}\overline{\mathbf{w}}$
+    \end{enumerate}
+    Song et al. (2020) prove that there exists an ODE whose marginal distribution is equal.
+    $$\mathrm{d}\mathbf{x}=[\mathbf{f}(\mathbf{x},t)-\dfrac{1}{2}g^2(t)\nabla_\mathbf{x}\log q_t(\mathbf{x})]\,\mathrm{d}t$$
+\end{frame}
