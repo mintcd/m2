@@ -1,0 +1,263 @@
+%%TITRE
+\begin{center}
+    \textbf{\Large A THIRD-ORDER GENERALIZATION OF THE MATRIX SVD} \\
+    \vspace{0.5cm}
+
+    Paper Report \\
+    CHAU Dang Minh
+\end{center}
+
+\begin{center}
+    \begin{minipage}{0.85\textwidth}
+        \textbf{Summary.} We have studied several SVD generalizations for tensors (CP and the Tuckers), which express a tensor as a sum of rank-one tensors. In the approach in \cite{kilmer2008third}, the authors defined a ring of tensors under the original addition and the to-be-defined product which can be reduced to that of invertible matrices. This allows a generalization for third-order tensors given as a product of three tensors.
+    \end{minipage}
+\end{center}
+
+\section{Preliminaries}
+In this section, we provide necessary operations for the definition of this type of SVD. Firstly, recall the notation of a $p$-order tensor
+
+\begin{equation}
+    \A = (a_{i_1\ldots i_p})\in\RR^{n_1\times\ldots\times n_p}.
+\end{equation}
+
+For a third-order tensor $\A\in\RR^{n_1\times n_2\times n_3}$, the \textit{unfold map} is a generalization of matricization, where
+
+\begin{itemize}
+    \item The first parameter is the tensor.
+    \item The optional second parameter is the dimension, defaulted to be 1.
+    \item The optional third parameter taking an array value, specifying the order of fibers to be organized.
+\end{itemize}
+
+For example, let
+$$\A = \left[\begin{array}{cc|cc}
+            a_{111} & a_{121} & a_{112} & a_{122} \\
+            a_{211} & a_{221} & a_{212} & a_{222}
+        \end{array}\right] = \left[\begin{array}{cc|cc}
+            1 & 3 & 5 & 7 \\
+            2 & 4 & 6 & 8
+        \end{array}\right].$$
+
+We have
+
+$$\mathrm{unfold}(\A) = \mathrm{unfold}(\A, 1) = \begin{bmatrix}
+        \A_{:,:,1} \\ \A_{:,:,2}
+    \end{bmatrix} = \begin{pmatrix}
+        1 & 3 \\
+        2 & 4 \\
+        5 & 7 \\
+        6 & 8
+    \end{pmatrix},$$
+$$\mathrm{unfold}(\A, 2) = \begin{bmatrix}
+        \A_{:,1,:} \\ \A_{:,2,:}
+    \end{bmatrix} = \begin{pmatrix}
+        1 & 5 \\
+        2 & 6 \\
+        3 & 7 \\
+        4 & 8
+    \end{pmatrix}, \mathrm{unfold}(\A, 2, [2,1]) = \begin{bmatrix}
+        \A_{:,2,:} \\ \A_{:,1,:}
+    \end{bmatrix} = \begin{pmatrix}
+        3 & 7 \\
+        4 & 8 \\
+        1 & 5 \\
+        2 & 6
+    \end{pmatrix}.$$
+
+Inversely, we have the \textit{fold map}, which transforms a matrix to a tensor. The parameters of the unfold map are the same as those of the unfold map. The \textit{circular map} is defined for each matrix $A = \begin{bmatrix}
+        A_1 & \cdots & A_{n_3}
+    \end{bmatrix} \in \RR^{n_1n_3\times n_2}$ as
+
+\begin{equation}
+    \mathrm{circ}(A) = \begin{bmatrix}
+        A_1     & A_{n_3}   & \cdots & A_2    \\
+        A_2     & A_1       & \cdots & A_3    \\
+        \vdots  & \vdots    & \ddots & \vdots \\
+        A_{n_3} & A_{n_3-1} & \cdots & A_1
+    \end{bmatrix}.
+\end{equation}
+
+The $n\times n$ discrete Fourier transform matrix $F_n = (f_{jk})$ is defined \cite{golub2013matrix} by
+
+\begin{equation}
+    f_{jk} = w_n^{(j-1)(k-1)},
+\end{equation}
+
+where
+$$ w_n = \exp\left(\dfrac{-2\pi i}{n}\right) = \cos\left(\dfrac{2\pi i}{n}\right) - i\sin\left(\dfrac{2\pi i}{n}\right).$$
+
+For a vector $x\in\CC^n$, $\mathrm{dft}(x) = F_nx$ is called the discrete Fourier transform (DFT) of $x$.
+
+For example, we have
+$$F_4 = \begin{bmatrix}
+        1 & 1     & 1     & 1     \\
+        1 & w_4^1 & w_4^2 & w_4^3 \\
+        1 & w_4^2 & w_4^4 & w_4^6 \\
+        1 & w_4^3 & w_4^6 & w_4^9
+    \end{bmatrix} = \begin{bmatrix}
+        1 & 1  & 1  & 1  \\
+        1 & -i & -1 & i  \\
+        1 & -1 & 1  & -1 \\
+        1 & i  & -1 & -i
+    \end{bmatrix}.$$
+
+
+\begin{proposition}
+    \label{proposition:eq}
+    Let $\A\in\RR^{n_1\times n_2\times n_3}$ and $F_{n_3}$ is the $n_3\times n_3$ matrix, we have
+
+    \begin{equation}
+        (F_{n_3}\otimes I_{n_1}) \cdot \mathrm{circ}(\mathrm{unfold}(\A)) \cdot (F_{n_3}^*\otimes I_{n_2}) =     \begin{pmatrix}
+            D_1 &        &         \\
+                & \ddots &         \\
+                &        & D_{n_3} \\
+        \end{pmatrix},
+    \end{equation}
+    where $D_\ell$ are the faces of the tensor $\D$ computed by applying DFT along each fiber $A_{i,j,:}$ of $\A$.
+\end{proposition}
+
+\section{The Product Operation}
+Having developed relevant operations which imply Proposition \ref{proposition:eq}, we now come to our main product operation.
+
+\begin{definition}
+    Let $\A\in\RR^{n_1\times n_2\times n_3}$ and $\B\in\RR^{n_2\times \ell\times n_3}$. The product $\A* B$ is the $n_1\times\ell\times n_3$ tensor
+    \begin{equation}
+        \A*\B = \mathrm{fold}(\mathrm{circ}(\mathrm{unfold}(\A)) \cdot \mathrm{unfold}(\B)).
+    \end{equation}
+\end{definition}
+
+Next, we develop the notions of inverse and transpose.
+
+\begin{definition}
+    Let $\A$ be a three-order tensor.
+    \begin{enumerate}
+        \item The identity tensor $\I\in \RR^{n\times n\times \ell}$ is the tensor whose the front face $\I_{:,:,1}$ is the identity matrix and other faces are all zeros.
+        \item The transpose $\A^\top$ of $\A$ is defined by
+              \begin{equation}
+                  \A^\top = \mathrm{fold}(\mathrm{unfold}(\A, 1, [1, n_3:-1:2])).
+              \end{equation}
+        \item A tensor $\B$ is called the inverse of $\A$ if $\A* \B = \B* \A = \I$.
+        \item A tensor $\Q\in\RR^{n\times n\times \ell}$ is orthogonal if $\Q*\Q^\top = \Q^\top *\Q = \I$.
+    \end{enumerate}
+
+\end{definition}
+
+Certain properties of the product as those of matrices are proven.
+
+\begin{proposition}
+    \label{proposition:properties}
+    Let $\A, \B, \C$ be tensors of appropriate sizes. We have
+    \begin{enumerate}
+        \item (Associativity) $(\A* B)* C = \A * (B* C)$.
+        \item $(\A*\B)^\top = \B^\top * A^\top$.
+        \item If $\Q$ is orthogonal, then $\|\Q*\A\|_F = \|\A\|_F$.
+    \end{enumerate}
+\end{proposition}
+
+\begin{proposition}
+    \label{proposition:sum}
+    Let $\A, \B$ and $\C$ have appropriate sizes whose the last dimension is $n_3$ satisfying $\A = \B*\C$. Then
+    \begin{equation}
+        \sum\limits_{\ell=1}^{n_3}\A_{:,:,\ell} =  \left(\sum\limits_{\ell=1}^{n_3}\B_{:,:,\ell}\right)\left(\sum\limits_{\ell=1}^{n_3}\C_{:,:,\ell}\right).
+    \end{equation}
+\end{proposition}
+
+
+\section{The Generalized SVD}
+
+In this section, we give a proof on the existence of a generalized SVD, called the T-SVD, some applications on data compression and further discussion.
+
+\begin{theorem}
+    Let $\A\in\RR^{n_1\times n_2\times n_3}$. Then $\A$ can be factorized as
+    $$\A = \U*\S*\V^\top,$$
+    where $\U\in\RR^{n_1\times n_1\times n_3}$ and $\V\in\RR^{n_2\times n_2\times n_3}$ are orthogonal, and $\S\in\RR^{n_1\times n_2\times n_3}$ has diagonal frontal faces.
+\end{theorem}
+
+\begin{proof}
+    By Proposition \ref{proposition:eq}, we have
+    $$(F_{n_3}\otimes I_{n_1}) \cdot \mathrm{circ}(\mathrm{unfold}(\A)) \cdot (F_{n_3}^*\otimes I_{n_2}) = \mathrm{diag}(F_{n_3}\A_{:,:,1}, \ldots, F_{n_3}\A_{:,:,n_3}).$$
+    Compute the SVD of each $D_{j}$ as $D_j = U_i\Sigma_iV_i^\top$, we have
+    $$    \begin{pmatrix}
+            D_1 &        &         \\
+                & \ddots &         \\
+                &        & D_{n_3} \\
+        \end{pmatrix} = \begin{pmatrix}
+            U_1 &        &         \\
+                & \ddots &         \\
+                &        & U_{n_3} \\
+        \end{pmatrix} \begin{pmatrix}
+            \Sigma_1 &        &              \\
+                     & \ddots &              \\
+                     &        & \Sigma_{n_3} \\
+        \end{pmatrix}\begin{pmatrix}
+            V_1^\top &        &              \\
+                     & \ddots &              \\
+                     &        & V_{n_3}^\top \\
+        \end{pmatrix}.$$
+    Therefore,
+    \begin{align*}
+        \mathrm{circ}(\mathrm{unfold}(\A))
+        = & \,\, (F^*_{n_3}\otimes I_{n_1})
+        \begin{pmatrix}
+            U_1 &        &         \\
+                & \ddots &         \\
+                &        & U_{n_3} \\
+        \end{pmatrix}  (F_{n_3}\otimes I_{n_1}) \\
+          & (F^*_{n_3}\otimes I_{n_1})
+        \begin{pmatrix}
+            \Sigma_1 &        &              \\
+                     & \ddots &              \\
+                     &        & \Sigma_{n_3} \\
+        \end{pmatrix} (F_{n_3}\otimes I_{n_2})  \\
+          & (F^*_{n_3}\otimes I_{n_2})
+        \begin{pmatrix}
+            V_1^\top &        &              \\
+                     & \ddots &              \\
+                     &        & V_{n_3}^\top \\
+        \end{pmatrix}(F_{n_3}\otimes I_{n_2}).
+    \end{align*}
+    The matrices in each row are all circular. Take the first column of the right-hand size and fold up the result using inverse DFT, we have $\A = \U*\S*\V^\top$, where $\U$ has $U_i, i = 1,\ldots,n_3$ to be frontal slides. Similarly for $\S$ and $\V$. By simple computations, we can show that the tensors are orthogonal.
+\end{proof}
+
+The proof is a construction of the SVD, which can be written as an algorithm.
+
+\begin{algorithm}
+    \caption{T-SVD}
+    \label{alg:cap}
+    \begin{algorithmic}
+        \Require $\A\in\RR^{n_1\times n_2\times n_3}$.
+        \State Compute $\D$ whose fibers are DFT of fibers of $\A$.
+
+        \For {$n= 1,\ldots, n_3$}
+        \State $[\U_{:,:,n}, \S_{:,:,n}, \V_{:,:,n}] = \mathrm{SVD}(\D_{:,:,n})$.
+        \EndFor
+
+        \State Apply inverse DFT to fibers of $\U, \S$ and $\V$.
+    \end{algorithmic}
+\end{algorithm}
+
+The T-SVD is used in data compression. Note that
+\begin{equation}
+    \A = \sum\limits_{j = 1}^{\min\{n_1,n_2\}} \U_{:,i,:}*\S_{i,i,:}\V_{:,i,:},
+\end{equation}
+
+we can approximate
+
+\begin{equation}
+    \A \approx \sum\limits_{j = 1}^{k} \U_{:,i,:}*\S_{i,i,:}\V_{:,i,:}
+\end{equation}
+
+for some $k < \min\{n_1,n_2\}$. Another strategy makes use of Proposition \ref{proposition:sum} and associativity. We have
+
+$$\sum\limits_{\ell=1}^{n_3}\A_{:,:,\ell} = \left(\sum\limits_{\ell=1}^{n_3}\U_{:,:,\ell}\right)\left(\sum\limits_{\ell=1}^{n_3}\S_{:,:,\ell}\right)\left(\sum\limits_{\ell=1}^{n_3}\V_{:,:,\ell}^\top\right) := USV^\top.$$
+
+For some $k_1<n_1$ and $k_2<n_2$, let $\tilde{U} = U_{:, 1:k_1}$ and $\tilde{V} = V_{:, 1:k_2}$. Let $\T\in\RR^{k_1\times k_2\times n_3}$ such that
+
+$$\T_{:,:,\ell} = \tilde{U}^\top A_{:,:,\ell} \tilde{V}.$$
+
+We the approximate
+\begin{equation}
+    \A \approx \sum\limits_{j=1}^{k_1}\sum\limits_{k=1}^{k_2} \tilde{U}_{:,j}\circ \tilde{V}_{:,k} \circ \T_{j,k,:}.
+\end{equation}
+
+Using the T-SVD, we can further prove the existence of analogous QR decomposition and eigendecomposition for tensors.
+

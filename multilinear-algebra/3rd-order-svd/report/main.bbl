@@ -1,0 +1,90 @@
+% $ biblatex auxiliary file $
+% $ biblatex bbl format version 3.3 $
+% Do not modify the above lines!
+%
+% This is an auxiliary file used by the 'biblatex' package.
+% This file may safely be deleted. It will be recreated by
+% biber as required.
+%
+\begingroup
+\makeatletter
+\@ifundefined{ver@biblatex.sty}
+  {\@latex@error
+     {Missing 'biblatex' package}
+     {The bibliography requires the 'biblatex' package.}
+      \aftergroup\endinput}
+  {}
+\endgroup
+
+
+\refsection{0}
+  \datalist[entry]{nty/global//global/global/global}
+    \entry{golub2013matrix}{book}{}{}
+      \name{author}{2}{}{%
+        {{hash=8b856da92ad549d323acc679ecf7f474}{%
+           family={Golub},
+           familyi={G\bibinitperiod},
+           given={Gene\bibnamedelima H},
+           giveni={G\bibinitperiod\bibinitdelim H\bibinitperiod}}}%
+        {{hash=4ed2d13e66ef340bd8d892c23333c87b}{%
+           family={Van\bibnamedelima Loan},
+           familyi={V\bibinitperiod\bibinitdelim L\bibinitperiod},
+           given={Charles\bibnamedelima F},
+           giveni={C\bibinitperiod\bibinitdelim F\bibinitperiod}}}%
+      }
+      \list{publisher}{1}{%
+        {JHU press}%
+      }
+      \strng{namehash}{315525c1558db03561c0e8a8b605758b}
+      \strng{fullhash}{315525c1558db03561c0e8a8b605758b}
+      \strng{fullhashraw}{315525c1558db03561c0e8a8b605758b}
+      \strng{bibnamehash}{315525c1558db03561c0e8a8b605758b}
+      \strng{authorbibnamehash}{315525c1558db03561c0e8a8b605758b}
+      \strng{authornamehash}{315525c1558db03561c0e8a8b605758b}
+      \strng{authorfullhash}{315525c1558db03561c0e8a8b605758b}
+      \strng{authorfullhashraw}{315525c1558db03561c0e8a8b605758b}
+      \field{sortinit}{G}
+      \field{sortinithash}{32d67eca0634bf53703493fb1090a2e8}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{title}{Matrix computations}
+      \field{year}{2013}
+    \endentry
+    \entry{kilmer2008third}{article}{}{}
+      \name{author}{3}{}{%
+        {{hash=73c657a2134b5c13954fc61a5d636930}{%
+           family={Kilmer},
+           familyi={K\bibinitperiod},
+           given={Misha\bibnamedelima E},
+           giveni={M\bibinitperiod\bibinitdelim E\bibinitperiod}}}%
+        {{hash=814ce6627c1a14ecfc8be4a9d4a0fb52}{%
+           family={Martin},
+           familyi={M\bibinitperiod},
+           given={Carla\bibnamedelima D},
+           giveni={C\bibinitperiod\bibinitdelim D\bibinitperiod}}}%
+        {{hash=19c02fd7e77f72c97d6102ccdfb00f50}{%
+           family={Perrone},
+           familyi={P\bibinitperiod},
+           given={Lisa},
+           giveni={L\bibinitperiod}}}%
+      }
+      \strng{namehash}{9d92f79fc497768f2f0779d1c3241f96}
+      \strng{fullhash}{9d92f79fc497768f2f0779d1c3241f96}
+      \strng{fullhashraw}{9d92f79fc497768f2f0779d1c3241f96}
+      \strng{bibnamehash}{9d92f79fc497768f2f0779d1c3241f96}
+      \strng{authorbibnamehash}{9d92f79fc497768f2f0779d1c3241f96}
+      \strng{authornamehash}{9d92f79fc497768f2f0779d1c3241f96}
+      \strng{authorfullhash}{9d92f79fc497768f2f0779d1c3241f96}
+      \strng{authorfullhashraw}{9d92f79fc497768f2f0779d1c3241f96}
+      \field{sortinit}{K}
+      \field{sortinithash}{c02bf6bff1c488450c352b40f5d853ab}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{Tufts University, Department of Computer Science, Tech. Rep. TR-2008-4}
+      \field{title}{A third-order generalization of the matrix svd as a product of third-order tensors}
+      \field{year}{2008}
+    \endentry
+  \enddatalist
+\endrefsection
+\endinput
+

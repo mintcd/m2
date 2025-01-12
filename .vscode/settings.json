@@ -20,6 +20,7 @@
         "dtype",
         "edgecolor",
         "edgecolors",
+        "eigendecomposition",
         "facecolor",
         "figsize",
         "fontsize",
