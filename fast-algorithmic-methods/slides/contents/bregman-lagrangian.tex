@@ -1,0 +1,64 @@
+\section{Bregman Lagrangians}
+\begin{frame}{Bregman Lagrangians}
+  \begin{itemize}
+    \item The kinetic energy is generalized by the Bregman divergence
+          \begin{equation}
+            D_y(y,x) = h(y) - h(x) - \langle \nabla h(x), y-x\rangle,
+          \end{equation}
+          where $h:\X\to\RR$ is convex and smooth.
+    \item Rescaling factors are added.
+    \item The first Bregman Lagrangian is defined \footnote{Wibisono, Andre, Ashia C. Wilson, and Michael I. Jordan. "A variational perspective on accelerated methods in optimization." proceedings of the National Academy of Sciences 113.47 (2016): E7351-E7358.} by
+          \begin{equation}
+            \L(X,V,t) = e^{\alpha_t+\gamma_t}(D_h(X+e^{-\alpha_t}V, X)- e^{\beta_t}f(X)).
+          \end{equation}
+
+    \item When $h(x) = \dfrac{1}{2}\|x\|^2$ and $Y = X+e^{-\alpha_t}V$ is near $X$, we recover a scaled kinetic energy
+          $$e^{\alpha_t+\gamma_t}D_h(X+e^{-\alpha_t}V, X)\approx e^{\alpha_t+\gamma_t}\dfrac{1}{2}\|Y-X\|^2 = e^{\gamma_t-\alpha_t}\dfrac{1}{2}\|V\|^2.$$
+  \end{itemize}
+\end{frame}
+
+\begin{frame}{Bregman Lagrangians}
+  Under ideal rescaling conditions
+  \begin{equation}
+    \label{eq:rescaling}
+    \dot{\gamma_t} = e^{\alpha_t} \text{ and } \dot{\beta^t} \le e^{\alpha_t},
+  \end{equation}
+  the first Bregman Lagrangian reduced to the ODE
+
+  \begin{equation}
+    \label{eq:1st-bregman-ode}
+    \dfrac{\mathrm{d}}{\mathrm{d}t}\nabla h(X + e^{-\alpha_t}V) = -e^{\alpha_t+\beta_t}\nabla f(X).
+  \end{equation}
+
+  Using a Lyapunov function, it is proven that for some $x^*\in\argmin\limits_{x\in\X}f(x)$,
+  \begin{equation}
+    f(X(t)) - f(x^*) \le O(e^{-\beta_t}).
+  \end{equation}
+\end{frame}
+
+\begin{frame}{Bregman Lagrangians}
+  The second Bregman Lagrangian is introduced \footnote{Wilson, Ashia C., Ben Recht, and Michael I. Jordan. "A Lyapunov analysis of accelerated methods in optimization." Journal of Machine Learning Research 22.113 (2021): 1-34.} as
+
+  \begin{equation}
+    \L(X,V,t) = e^{\alpha_t+\beta_t+\gamma_t}(\mu D_h(X+e^{-\alpha_t}V, X)- f(X)).
+  \end{equation}
+
+  The derived ODE under rescaling conditions (\ref{eq:rescaling}) is more general than that of the first Bregman Lagrangian.
+
+  \begin{equation}
+    \label{eq:2nd-bregman-ode}
+    \dfrac{\mathrm{d}}{\mathrm{d}t}\nabla h(X + e^{-\alpha_t}V) = \dot{\beta_t}\nabla h(X) - \dot{\beta_t}\nabla h(X + e^{-\alpha_t}V) -\dfrac{e^{\alpha_t}}{\mu}\nabla f(X).
+  \end{equation}
+
+  When $h(x)=\dfrac{1}{2}\|x\|^2$ and $\beta_t = \sqrt{\mu}t$, (\ref{eq:2nd-bregman-ode}) is reduced to Polyak's momentum
+  $$\ddot{X} + 2\sqrt{\mu}\dot{X} + \nabla f(X) = 0.$$
+\end{frame}
+
+\begin{frame}{Bregman Lagrangians}
+  Using the Lyapunov function
+  \begin{equation}
+    \E_t = e^{\beta_t}\left(\mu D_h(X+e^{-\alpha_t}V, X) + f(X) - f(x)\right)
+  \end{equation}
+  with $x=x^*$, the inequality $\E_t\le \E_0$ leads to the same convergence rate as that of the first Bregman Lagrangian
+  $$f(X(t)) - f(x^*) \le O(e^{-\beta_t}).$$
+\end{frame}

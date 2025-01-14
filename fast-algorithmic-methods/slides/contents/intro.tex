@@ -1,0 +1,72 @@
+\section{Introduction}
+
+\begin{frame}{Scenerio}
+  \begin{equation}
+    \min\limits_{x\in \X} f(x),
+  \end{equation}
+  where
+  \begin{itemize}
+    \item $\X\in\RR^d$ is a closed convex set,
+    \item $f:\X\to\RR$ is a continuously differentiable convex.
+  \end{itemize}
+  We use the standard Euclidean norm $\|x\|= \dfrac{1}{2}\langle x,x\rangle$.
+  function
+\end{frame}
+
+\begin{frame}{Discreteness and Continuality}
+  \begin{itemize}
+    \item Early iterative optimization algorithms (Gradient Descent and Polyak's Momentum Acceleration) are intuitively interpretable.
+    \item Nesterov's Acceleration is less intuitive
+          \begin{equation}
+            \begin{cases}
+              x_k = y_{k-1} - s\nabla f(y_{k-1}) \\
+              y_k = x_k + \dfrac{k-1}{k+2}(x_k - x_{k-1}).
+            \end{cases}
+          \end{equation}
+    \item Continualized versions as ODEs are available.
+    \item Current orientation: starting from an ODE and derive a family of discrete algorithms using Euler's methods.
+  \end{itemize}
+\end{frame}
+
+\begin{frame}{Lagrangian mechanics and the Lagrangian}
+  The Lagrangian $\L(X,V,t)$ is introduced \footnote{Wibisono, Andre, Ashia C. Wilson, and Michael I. Jordan. "A variational perspective on accelerated methods in optimization." proceedings of the National Academy of Sciences 113.47 (2016): E7351-E7358.} as a framework to derive ODEs, where
+  \begin{itemize}
+    \item $X = X(t)$ is the coordinate
+    \item $V = \dot{X}(t)$ is the velocity
+    \item $t\in\RR$ is the time
+  \end{itemize}
+
+  The action in $[t_1, t_2]$ is $\A(X) = \int\limits_{t_1}^{t_2} \L(X,V,t)\,\mathrm{d}t$. A trajectory $X$ being a stationary function of $\A$ solves the Euler-Lagrange equation
+  \begin{equation}
+    \dfrac{\partial \L}{\partial X} \L (X, V, t) = \dfrac{\mathrm{d}}{\mathrm{d}t} \dfrac{\partial \L}{\partial V} \L (X, V, t).
+  \end{equation}
+\end{frame}
+
+\begin{frame}{NAG's Lagrangian}
+  The ODE associated to NAG \footnote{Su, Weijie, Stephen Boyd, and Emmanuel J. Candes. "A differential equation for modeling Nesterov's accelerated gradient method: theory and insights." arXiv preprint arXiv:1503.01243 (2015).}
+  \begin{equation}
+    \label{eq:nes-ode}
+    \ddot{X} + \dfrac{3}{t}\dot{X} + \nabla f(X) = 0
+  \end{equation}
+  has corresponding Lagrangian
+  \begin{equation}
+    \label{eq:nes-lagrangian}
+    \L (X, V, t) = t^3\left(\dfrac{1}{2}\|V\|^2-f(X)\right).
+  \end{equation}
+  Indeed, $\dfrac{\partial \L}{\partial X} \L = -t^3\nabla f(X), \dfrac{\partial \L}{\partial V} \L = t^3V$ and $\dfrac{\mathrm{d}}{\mathrm{d}t}\dfrac{\partial \L}{\partial V} \L = 3t^2 V + t^3\dot{V}.$
+
+  Hence $t^3\dot{X} = 3t^2\dot{X} + t^3\ddot{X}$. Divide by $t^3$ and rearrange to get (\ref{eq:nes-ode}).
+\end{frame}
+
+\begin{frame}{Lagrangian}
+  \begin{itemize}
+    \item We can also see that the standard Lagrangian
+          \begin{equation}
+            \label{eq:standard-lagrangian}
+            \L (X, V, t) = \dfrac{1}{2}\|V\|^2-f(X)
+          \end{equation}
+          derives Polyak's acceleration with momentum $\beta=1$.
+    \item In (\ref{eq:standard-lagrangian}), $\dfrac{1}{2}\|V\|^2$ is the kinetic energy and $f(X)$ is the potential energy.
+    \item Idea: generalizing this difference, proving convergence of the derived ODE, then discretizing and proving the convergence of iterative algorithms.
+  \end{itemize}
+\end{frame}

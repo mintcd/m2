@@ -1,0 +1,82 @@
+\section{Discretization}
+
+\begin{frame}{Discretization}
+  To this point, we have two ODEs. Recalling (\ref{eq:1st-bregman-ode})
+  $$\dfrac{\mathrm{d}}{\mathrm{d}t}\nabla h(X + e^{-\alpha_t}V) = -e^{\alpha_t+\beta_t}\nabla f(X).$$
+  Using $\alpha_t = \log p - \log t, \beta_t = p\log t + \log C$ and $\gamma_t = p\log t$ for some $p > 0$, we have
+  $$\dfrac{\mathrm{d}}{\mathrm{d}t}\nabla h(X + \dfrac{t}{p}V) = -Cpt^{p-1}\nabla f(X).$$
+  Or
+  \begin{equation}
+    \begin{cases}
+      Z = X + \dfrac{t}{p}\dot{X} \\
+      \dfrac{\mathrm{d}}{\mathrm{d}t}\nabla h(Z) = -Cpt^{p-1}\nabla f(X)
+    \end{cases}
+  \end{equation}
+
+  Let $t=\delta k$, now we discretize $x_k = X(t)$, $x_{k+1} = X(t+\delta)\approx X(t) + \delta \dot{X_t}$ and similarly for $Z(t)$.
+\end{frame}
+
+\begin{frame}{Discretization}
+  The first equation becomes
+  $$x_{k+1} = \dfrac{p}{k}z_k + \dfrac{k-p}{k}x_k$$
+  The second equations becomes
+  $$\nabla h(z_k) - \nabla h(z_{k-1}) = -Cp\delta^p k^{p-1} \nabla f(x_k).$$
+  Equivalently,
+  $$\nabla_z (Cp k^{p-1}\langle\nabla f(x_k), z\rangle + \dfrac{1}{\delta^p}D_h(z, z_{k-1})) = 0.$$
+  Proving that the function taken gradient is convex, we can update
+  $$z_{k} = \argmin\limits_{z}\left\{Cp k^{p-1}\langle\nabla f(x_k), z\rangle + \dfrac{1}{\delta^p}D_h(z, z_{k-1})\right\}.$$
+  Unfortunately, it is proven that this algorithm is not stable.
+\end{frame}
+
+\begin{frame}{Discretization}
+  Using the combination instead of the exponent
+  \begin{equation}
+    \begin{cases}
+      x_{k+1} = \dfrac{p}{k}z_k + \dfrac{k-p}{k}x_k \\
+      z_{k} = \argmin\limits_{z}\left\{Cp \begin{pmatrix}p+k-2 \\ p\end{pmatrix}\langle\nabla f(x_k), z\rangle + \dfrac{1}{\delta^p}D_h(z, z_{k-1})\right\},
+    \end{cases}
+  \end{equation}
+  the algorithm is proven to converge with rate $O(1/(\delta k)^p)$.
+
+  The same implicit method is applied for ODE (\ref{eq:2nd-bregman-ode}) and convergence is also guaranteed.
+  However, solving for $z_k$ is as difficult as the original problem. Hence we consider cases where explicit discretization arrives at reasonable convergence rate.
+\end{frame}
+
+\begin{frame}{Discretization}
+  Use an extrapolating sequence $(y_k)$, there are two possible updates. For example with ODE (\ref{eq:1st-bregman-ode})
+  \begin{equation}
+    \begin{cases}
+      x_{k+1} = \beta_kz_k + (1-\beta_k)y_k \\
+      \nabla h(z_{k+1}) = \nabla h(z_{k}) - \delta\alpha_k \nabla f(y_{k+1}),
+    \end{cases}
+  \end{equation}
+
+  \begin{equation}
+    \begin{cases}
+      x_{k+1} = \beta_kz_k + (1-\beta_k)y_k \\
+      \nabla h(z_{k+1}) = \nabla h(z_{k}) - \delta\alpha_k \nabla f(x_{k+1}).
+    \end{cases}
+  \end{equation}
+
+  Using Lyapunov's method with appropriate conditions, convergence rate $O(1/(\delta k)^p)$ is guaranteed.
+\end{frame}
+
+\section{Derivation}
+
+\begin{frame}{Derivations}
+  Difference choices of $(y_k)$ reveal published algorithms. For example
+  \begin{itemize}
+    \item Acceleration of gradient descent (plugged to (17)) \footnote{Nesterov, Yurii. Introductory lectures on convex optimization: A basic course. Vol. 87. Springer Science \& Business Media, 2013.}
+          $$y_{k+1} = \argmin\limits_{y}\left\{f(x_{k+1}) + \langle \nabla f(x_{k+1}), y - x_{k+1} + \dfrac{1}{2\nu}\|y-x_{k+1}\|^2\rangle\right\}.$$
+    \item Acceleration of tensor methods \footnote{Nesterov, Yu. "Accelerating the cubic regularization of Newton’s method on convex problems." Mathematical Programming 112.1 (2008): 159-181.}
+          $$y_{k+1} = \argmin\limits_{y}\left\{\sum\limits_{t=0}^{p-1}\dfrac{1}{i!}\nabla^i f(x)(y-x)^{i} + \dfrac{1}{p\nu}\|x-y\|^p\right\}.$$
+  \end{itemize}
+\end{frame}
+
+\begin{frame}{Conclusion and Future Work}
+  \begin{itemize}
+    \item The concerned paper revisits Lagrangians, with an aim of unifying some know algorithms and providing a framework for algorithm design.
+    \item A new Lagrangian is introduced.
+    \item It may require the elaboratively derivations to specific algorithms.
+  \end{itemize}
+\end{frame}
