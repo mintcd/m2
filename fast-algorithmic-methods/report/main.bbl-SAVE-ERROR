@@ -1,0 +1,161 @@
+% $ biblatex auxiliary file $
+% $ biblatex bbl format version 3.3 $
+% Do not modify the above lines!
+%
+% This is an auxiliary file used by the 'biblatex' package.
+% This file may safely be deleted. It will be recreated by
+% biber as required.
+%
+\begingroup
+\makeatletter
+\@ifundefined{ver@biblatex.sty}
+  {\@latex@error
+     {Missing 'biblatex' package}
+     {The bibliography requires the 'biblatex' package.}
+      \aftergroup\endinput}
+  {}
+\endgroup
+
+
+\refsection{0}
+  \datalist[entry]{nty/global//global/global/global}
+    \entry{lurie2013analytical}{book}{}{}
+      \name{author}{1}{}{%
+        {{hash=482e7a45f25ffece513ace1fd13d7642}{%
+           family={Lurie},
+           familyi={L\bibinitperiod},
+           given={Anatolii\bibnamedelima Isakovich},
+           giveni={A\bibinitperiod\bibinitdelim I\bibinitperiod}}}%
+      }
+      \list{publisher}{1}{%
+        {Springer Science \& Business Media}%
+      }
+      \strng{namehash}{482e7a45f25ffece513ace1fd13d7642}
+      \strng{fullhash}{482e7a45f25ffece513ace1fd13d7642}
+      \strng{fullhashraw}{482e7a45f25ffece513ace1fd13d7642}
+      \strng{bibnamehash}{482e7a45f25ffece513ace1fd13d7642}
+      \strng{authorbibnamehash}{482e7a45f25ffece513ace1fd13d7642}
+      \strng{authornamehash}{482e7a45f25ffece513ace1fd13d7642}
+      \strng{authorfullhash}{482e7a45f25ffece513ace1fd13d7642}
+      \strng{authorfullhashraw}{482e7a45f25ffece513ace1fd13d7642}
+      \field{sortinit}{L}
+      \field{sortinithash}{7c47d417cecb1f4bd38d1825c427a61a}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{title}{Analytical mechanics}
+      \field{year}{2013}
+    \endentry
+    \entry{nocedal1999numerical}{book}{}{}
+      \name{author}{2}{}{%
+        {{hash=88a342d927bf795b0d92af8a5613da31}{%
+           family={Nocedal},
+           familyi={N\bibinitperiod},
+           given={Jorge},
+           giveni={J\bibinitperiod}}}%
+        {{hash=c49efb16d3fa7eef002cc3620d42ab8a}{%
+           family={Wright},
+           familyi={W\bibinitperiod},
+           given={Stephen\bibnamedelima J},
+           giveni={S\bibinitperiod\bibinitdelim J\bibinitperiod}}}%
+      }
+      \list{publisher}{1}{%
+        {Springer}%
+      }
+      \strng{namehash}{5b8fd28f6245ae8b0af119560622fa4f}
+      \strng{fullhash}{5b8fd28f6245ae8b0af119560622fa4f}
+      \strng{fullhashraw}{5b8fd28f6245ae8b0af119560622fa4f}
+      \strng{bibnamehash}{5b8fd28f6245ae8b0af119560622fa4f}
+      \strng{authorbibnamehash}{5b8fd28f6245ae8b0af119560622fa4f}
+      \strng{authornamehash}{5b8fd28f6245ae8b0af119560622fa4f}
+      \strng{authorfullhash}{5b8fd28f6245ae8b0af119560622fa4f}
+      \strng{authorfullhashraw}{5b8fd28f6245ae8b0af119560622fa4f}
+      \field{sortinit}{N}
+      \field{sortinithash}{22369a73d5f88983a108b63f07f37084}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{title}{Numerical optimization}
+      \field{year}{1999}
+    \endentry
+    \entry{wibisono2016variational}{article}{}{}
+      \name{author}{3}{}{%
+        {{hash=aeb0186e53aa13b5e4e44bd81fbfdfec}{%
+           family={Wibisono},
+           familyi={W\bibinitperiod},
+           given={Andre},
+           giveni={A\bibinitperiod}}}%
+        {{hash=f1a3315701af5f6e61157202fd95a376}{%
+           family={Wilson},
+           familyi={W\bibinitperiod},
+           given={Ashia\bibnamedelima C},
+           giveni={A\bibinitperiod\bibinitdelim C\bibinitperiod}}}%
+        {{hash=8a36116840c7ee55901618c95fd08a58}{%
+           family={Jordan},
+           familyi={J\bibinitperiod},
+           given={Michael\bibnamedelima I},
+           giveni={M\bibinitperiod\bibinitdelim I\bibinitperiod}}}%
+      }
+      \list{publisher}{1}{%
+        {National Acad Sciences}%
+      }
+      \strng{namehash}{56dce5a17549b95c7cc2ef4e2154ad0e}
+      \strng{fullhash}{56dce5a17549b95c7cc2ef4e2154ad0e}
+      \strng{fullhashraw}{56dce5a17549b95c7cc2ef4e2154ad0e}
+      \strng{bibnamehash}{56dce5a17549b95c7cc2ef4e2154ad0e}
+      \strng{authorbibnamehash}{56dce5a17549b95c7cc2ef4e2154ad0e}
+      \strng{authornamehash}{56dce5a17549b95c7cc2ef4e2154ad0e}
+      \strng{authorfullhash}{56dce5a17549b95c7cc2ef4e2154ad0e}
+      \strng{authorfullhashraw}{56dce5a17549b95c7cc2ef4e2154ad0e}
+      \field{sortinit}{W}
+      \field{sortinithash}{4315d78024d0cea9b57a0c6f0e35ed0d}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{proceedings of the National Academy of Sciences}
+      \field{number}{47}
+      \field{title}{A variational perspective on accelerated methods in optimization}
+      \field{volume}{113}
+      \field{year}{2016}
+      \field{pages}{E7351\bibrangedash E7358}
+      \range{pages}{-1}
+    \endentry
+    \entry{wilson2021lyapunov}{article}{}{}
+      \name{author}{3}{}{%
+        {{hash=f1a3315701af5f6e61157202fd95a376}{%
+           family={Wilson},
+           familyi={W\bibinitperiod},
+           given={Ashia\bibnamedelima C},
+           giveni={A\bibinitperiod\bibinitdelim C\bibinitperiod}}}%
+        {{hash=ffa081e7e59a2c82fd714ab7ea81fe97}{%
+           family={Recht},
+           familyi={R\bibinitperiod},
+           given={Ben},
+           giveni={B\bibinitperiod}}}%
+        {{hash=8a36116840c7ee55901618c95fd08a58}{%
+           family={Jordan},
+           familyi={J\bibinitperiod},
+           given={Michael\bibnamedelima I},
+           giveni={M\bibinitperiod\bibinitdelim I\bibinitperiod}}}%
+      }
+      \strng{namehash}{05cf30a497c52d696f028fd4c26f0563}
+      \strng{fullhash}{05cf30a497c52d696f028fd4c26f0563}
+      \strng{fullhashraw}{05cf30a497c52d696f028fd4c26f0563}
+      \strng{bibnamehash}{05cf30a497c52d696f028fd4c26f0563}
+      \strng{authorbibnamehash}{05cf30a497c52d696f028fd4c26f0563}
+      \strng{authornamehash}{05cf30a497c52d696f028fd4c26f0563}
+      \strng{authorfullhash}{05cf30a497c52d696f028fd4c26f0563}
+      \strng{authorfullhashraw}{05cf30a497c52d696f028fd4c26f0563}
+      \field{sortinit}{W}
+      \field{sortinithash}{4315d78024d0cea9b57a0c6f0e35ed0d}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{Journal of Machine Learning Research}
+      \field{number}{113}
+      \field{title}{A Lyapunov analysis of accelerated methods in optimization}
+      \field{volume}{22}
+      \field{year}{2021}
+      \field{pages}{1\bibrangedash 34}
+      \range{pages}{34}
+    \endentry
+  \enddatalist
+\endrefsection
+\endinput
+

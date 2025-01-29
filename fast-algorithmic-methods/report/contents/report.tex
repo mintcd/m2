@@ -1,0 +1,344 @@
+%%TITRE
+\begin{center}
+    \textbf{\Large A LYAPUNOV ANALYSIS OF ACCELERATED METHODS \\ IN OPTIMIZATION} \\
+    \vspace{0.5cm}
+
+    Paper Report \\
+    CHAU Dang Minh
+\end{center}
+
+% \begin{center}
+%     \begin{minipage}{0.85\textwidth}
+%         \textbf{Summary.}
+%     \end{minipage}
+% \end{center}
+
+\section{Introduction}
+Convex optimization plays a central role in optimization, which contributes to the development of machine learning because of typical properties of convex functions. One form of the problem is
+
+\begin{equation}
+    \inf\limits_{x\in\X} f(x),
+    \tag{$\P$}
+\end{equation}
+
+where $\X\subset\RR^d$ is a closed and convex, $f:\H\to\RR$ is a continuously differentiable convex function. Iterative algorithms have been developed to solve this problems. They begin with an initial guess of the variable $x$ and generate a sequence of improved estimates until they terminate, hopefully at a solution. The strategy used to move from one iterate to the next distinguishes one algorithm from another \cite{nocedal1999numerical}. For many iterative algorithms, by continualization i.e. letting the step size tend to zero and taking appropriate limits, we arrive at an ODE. Convergent analysis of such ODEs provides novel insights to the original algorithm. For example, the Polyak's momentum algorithm takes the form
+\begin{equation}
+    \begin{cases}
+        x_0, x_1 \\
+        x_{k+1} = x_k - \alpha\nabla f(x_k) + \beta(x_{k}-x_{k-1}), k \ge 1.
+    \end{cases}
+\end{equation}
+where $\alpha,\beta>0$. Set $h=\sqrt{\alpha}$, $t=kh$ and $\beta = 1 -\gamma h$, with $\gamma>0$. We approximate $X(t) \approx x_k$. The update formula becomes
+$$\dfrac{x_{k+1} - 2x_{k} + x_{k-1}}{h^2} + \gamma \dfrac{x_k - x_{k-1}}{h} + \nabla f(x_k) = 0$$
+Taking the limit when $h\downarrow 0$, we have
+\begin{equation}
+    \begin{cases}
+        X(0) = x_0, \dot{X}(0) = x_1 \\
+        \ddot{X}(t) + \gamma \dot{X}(t) + \nabla f(X(t)) = 0, \,\,\, t\ge 0.
+    \end{cases}
+\end{equation}
+The Lyapunov function argument is usually applied for convergence analysis of an ODE. Let $f^* = \inf\limits_{\X} f(x)$ and $x^* = \argmin\limits_{\X} f(x)$ and define the Lyapunov function
+\begin{equation}
+    \E(t) = \dfrac{1}{2}\|\dot{X}\|^2 + f(X).
+\end{equation}
+
+It is shown that the dynamic leads to convergence rate $O\left(1/t\right)$ \cite{alvarez2000minimizing}.
+
+
+
+% We have
+% $$\dot{\E}(t) = \langle\sqrt{\mu}\dot{X}(t) + \ddot{X}(t), \sqrt{\mu}(X(t)-x^*) + \dot{X}(t)\rangle + \langle \nabla f(X(t)), X(t) \rangle.$$
+% Plugging $\ddot{X}(t) = -2\sqrt{\mu} \dot{X}(t) - \nabla f(X(t))$ to the equality, we have
+
+% \begin{align*}
+%     \dot{\E}(t)
+%      & = \langle-\sqrt{\mu}\dot{X}(t) - \nabla f(X(t)), \sqrt{\mu}(X(t)-x^*) + \dot{X}(t)\rangle + \langle \nabla f(X(t)), \dot{X}(t) \rangle \\
+%      & = \sqrt{\mu}\langle\nabla f(X(t)), x^* - X(t)\rangle-\sqrt{\mu}\|\dot{X}(t)\|^2 -\mu\langle \dot{X}(t), x^* - X(t) \rangle
+% \end{align*}
+
+
+
+\section{Bregman Lagrangians}
+The Lagrangian is the core quantity in Lagrangian mechanics, which normally takes the form
+\begin{equation}
+    \L(X, V, t) = \mathrm{KE} - \mathrm{PE},
+\end{equation}
+
+where
+\begin{itemize}
+    \item $X$ is the coordinate,
+    \item $V$ is the velocity,
+    \item $\mathrm{KE}$ is the kinetic energy,
+    \item $\mathrm{PE}$ is the potential energy.
+\end{itemize}
+
+Solving the Lagrange-Euler equation
+\begin{equation}
+    \dfrac{\partial \L}{\partial X} \L(X, V, t) = \dfrac{\mathrm{d}}{\mathrm{d} t} \dfrac{\partial \L}{\partial V} \L(X, V, t).
+    \label{eq:lagrange-euler}
+\end{equation}
+yields the motion of the system \cite{lurie2013analytical}. In fact, a solution to (\ref{eq:lagrange-euler}) is a stationary point of the functional of action
+\begin{equation}
+    \A(\X) = \int\limits_{t_1}^{t_2}\L(X, V, t)\,\mathrm{d}t.
+\end{equation}
+
+In a simple case where we let $\mathrm{KE} = \dfrac{1}{2}\|V\|^2$ and $\mathrm{PE} = f(X)$. The Lagrange-Euler equation becomes
+$$-\nabla f(X) = \dot{V} = \ddot{X},$$
+which can be discretized as $-\nabla f(x_k) = \dfrac{x_{k+1} - 2x_{k} + x_{k-1}}{\alpha}$ or
+\begin{equation}
+    x_{k+1} = x_k - \alpha \nabla f(x_k) + (x_k-x_{k-1}).
+\end{equation}
+
+This is Polyak's momentum with $\beta = 1$. Two generalized Lagrangians are introduced \cite{wibisono2016variational} \cite{wilson2021lyapunov}
+
+\begin{equation}
+    \L_1(X,V,t) = e^{\alpha_t+\gamma_t}(D_h(X+e^{-\alpha_t}V, X)- e^{\beta_t}f(X)),
+\end{equation}
+
+\begin{equation}
+    \L_2(X,V,t) = e^{\alpha_t+\beta_t+\gamma_t}(\mu D_h(X+e^{-\alpha_t}V, X)- f(X)),
+    \label{eq:2nd-bregman}
+\end{equation}
+where
+\begin{itemize}
+    \item $h: \X\to\RR$ is a convex smooth function,
+    \item $D_h(y,x) = h(y) - h(x) - \langle \nabla h(x), y-x\rangle$ is the Bregman divergence.
+\end{itemize}
+
+Additional ideal scaling conditions are applied
+\begin{subequations} \label{eq:rescaling}
+    \begin{align}
+        \dot{\gamma_t} & = e^{\alpha_t}, \label{eq:rescaling-1}   \\
+        \dot{\beta^t}  & \le e^{\alpha_t}. \label{eq:rescaling-2}
+    \end{align}
+\end{subequations}
+
+\begin{proposition}
+    Under condition (\ref{eq:rescaling-1}), the Bregman-Euler equation of $\L_1$ reduces to the ODE
+    \begin{equation}
+        \label{eq:1st-bregman-ode}
+        \dfrac{\mathrm{d}}{\mathrm{d}t}\nabla h(X + e^{-\alpha_t}V) = -e^{\alpha_t+\beta_t}\nabla f(X).
+    \end{equation}
+    \label{prop:1st-bregman-ode}
+\end{proposition}
+
+\begin{proof}
+    We have $D_h(X+e^{-\alpha_t}V, X) = h(X+e^{-\alpha_t}V) - h(X) - \langle \nabla h(X), e^{-\alpha_t} V  \rangle$. Hence
+    \begin{align*}
+        \dfrac{\partial \L_1}{\partial X}
+         & = e^{\alpha_t +\gamma_t}\left(\nabla h(X+e^{-\alpha_t}V) - \nabla h(X) - e^{-\alpha_t}\nabla^2 h(X) V - e^{\beta_t}\nabla f(X)\right)                    \\
+         & = e^{\alpha_t +\gamma_t}\left(\nabla h(X+e^{-\alpha_t}V) - \nabla h(X)\right) - e^{\gamma_t} \nabla^2 h(X) V - e^{\alpha_t+\beta_t+\gamma_t}\nabla f(X).
+    \end{align*}
+
+    $$\dfrac{\partial \L_1}{\partial V} = e^{\alpha_t+\gamma_t}\left(e^{-\alpha_t}\nabla h(X+e^{-\alpha_t}V) - e^{-\alpha_t}\nabla h(X) \right) = e^{\gamma_t}\left(\nabla h(X+e^{-\alpha_t}V) - \nabla h(X) \right),$$
+    \begin{align*}
+        \dfrac{\mathrm{d}}{\mathrm{d}t}\dfrac{\partial \L_1}{\partial V}
+         & = e^{\gamma_t}\left[\dot{\gamma_t}\left(\nabla h(X+e^{-\alpha_t}V) - \nabla h(X) \right)+\nabla^2  h(X+e^{-\alpha_t}V)\left(V+e^{\alpha_t}(-\dot{\alpha_t}V + \dot{V})\right) - \nabla^2 h(X)V\right]                                              \\
+         & \stackrel{(\ref{eq:rescaling-1})}{=} e^{\alpha_t +\gamma_t}\left(\nabla h(X+e^{-\alpha_t}V) - \nabla h(X)\right) - e^{\gamma_t}\left( \nabla^2  h(X+e^{-\alpha_t}V)\left(V+e^{\alpha_t}(-\dot{\alpha_t}V + \dot{V})\right) + \nabla^2 h(X)V\right)
+    \end{align*}
+
+    Hence the Bregman-Lagrange equation becomes
+    $$e^{\alpha_t+\beta_t+\gamma_t}\nabla f(X) = e^{\gamma_t}\nabla^2  h(X+e^{-\alpha_t}V)\left(V+e^{\alpha_t}(-\dot{\alpha_t}V + \dot{V})\right).$$
+    This is equivalent to (\ref{eq:1st-bregman-ode}).
+\end{proof}
+
+\begin{proposition}
+    Under condition (\ref{eq:rescaling-1}), the Bregman-Euler equation of $\L_1$ reduces to the ODE
+    \begin{equation}
+        \label{eq:2nd-bregman-ode}
+        \dfrac{\mathrm{d}}{\mathrm{d}t}\nabla h(X + e^{-\alpha_t}V) = \dot{\beta_t}\nabla h(X) - \dot{\beta_t}\nabla h(X + e^{-\alpha_t}V) -\dfrac{e^{\alpha_t}}{\mu}\nabla f(X).
+    \end{equation}
+    \label{prop:2nd-bregman-ode}
+\end{proposition}
+
+\begin{proof}
+    Elaborate on the two sides as in Proposition \ref{prop:1st-bregman-ode}.
+\end{proof}
+
+\begin{theorem}
+    Under condition (\ref{eq:rescaling-2}), solutions to (\ref{eq:1st-bregman-ode}) satisfy
+    \begin{equation}
+        \label{ine:convergence}
+        f(X(t)) - f(x^*) \le O\left(e^{-\beta_t}\right).
+    \end{equation}
+\end{theorem}
+
+\begin{proof}
+    Consider the Lyapunov function
+    $$\E_t = D_h(x^*, X + e^{-\alpha_t}\dot{X}) + e^{\beta_t}\left(f(X) - f(x^*)\right) \ge 0.$$
+    We have
+    \begin{align*}
+        \dot{\E}_t
+         & = \left\langle-\dfrac{\mathrm{d}}{\mathrm{d}t}\nabla h(X + e^{-\alpha_t}V), x^* - X - e^{-\alpha_t}\dot{X} \right\rangle + e^{\beta_t}\left(\dot{\beta_t}(f(X) - f(x^*)) + \langle \nabla f(X), \dot{X}\rangle\right) \\
+         & =  e^{\alpha_t+\beta_t}\left\langle\nabla f(X), x^* - X - e^{-\alpha_t}\dot{X} \right\rangle + e^{\beta_t}\left(\dot{\beta_t}(f(X(t)) - f(x^*)) + \langle \nabla f(X), \dot{X}\rangle\right)                          \\
+         & = -e^{\alpha_t+\beta_t}D_f(x^*, X_t) + (\dot{\beta_t} - \alpha_t)(f(X)-f(x^*))                                                                                                                                        \\
+         & \stackrel{(\ref{eq:rescaling-2})}{\le} -e^{\alpha_t+\beta_t}D_f(x^*, X_t) \le 0.
+    \end{align*}
+    Hence $e^{\beta_t}(f(X) - f(x^*)) = \E_t \le \E_0$ implying (\ref{ine:convergence}).
+\end{proof}
+
+\begin{theorem}
+    Assume that $f$ is $\mu$-uniformly convex with respect to $h$, i.e.
+    \begin{equation}
+        D_f(x,y) \ge \mu D_h(x,y),
+    \end{equation}
+    solutions to ODE (\ref{eq:2nd-bregman-ode}) also satisfy
+    $$f(X(t)) - f(x^*) \le O\left(e^{-\beta_t}\right).$$
+\end{theorem}
+
+\begin{proof}
+    Elaborate on the Lyapunov function
+    \begin{equation}
+        \E_t = e^{\beta_t}\left(\mu D_h(X+e^{-\alpha_t}V, X) + f(X) - f(x)\right).
+    \end{equation}
+\end{proof}
+
+\section{Discretization}
+Recall that given the dynamic $\dot{X} = v(X)$,
+\begin{itemize}
+    \item The explicit Euler method uses the update formula $x_{k+1} = v(x_k) + sx_k$.
+    \item The implicit Euler method uses the update formula $x_{k+1} = v(x_{k+1}) + sx_k$.
+\end{itemize}
+
+Firstly, rewrite ODE (\ref{eq:1st-bregman-ode}) as
+\begin{equation}
+    \begin{cases}
+        Z = X + \dfrac{e^{\beta_t}}{\frac{\mathrm{d}}{\mathrm{d}t}e^{\beta_t}}\dot{X} \\
+        \dfrac{\mathrm{d}}{\mathrm{d}t}\nabla h(Z) = -\frac{\mathrm{d}}{\mathrm{d}t}e^{\beta_t}\nabla f(X).
+    \end{cases}
+\end{equation}
+
+The family of ODEs where $\alpha_t = \log p - \log t, \beta_t = p\log t + \log C$ and $\gamma_t = p\log t$ is concerned \cite{wibisono2016variational}, which reduces the system of ODEs to
+\begin{equation}
+    \begin{cases}
+        Z = X + \dfrac{t}{p}\dot{X} \\
+        \dfrac{\mathrm{d}}{\mathrm{d}t}\nabla h(Z) = -Cpt^{p-1}\nabla f(X)
+    \end{cases}
+\end{equation}
+
+It is shown that the approximation $t=\delta k$, $x_k = X(t)$, $x_{k+1} = X(t+\delta)\approx X(t) + \delta \dot{X_t}$, $z_k = Z(t)$, $z_{k+1} \approx Z(t) + \delta \dot{Z_t}$ does not lead to a stable algorithm \cite{wibisono2016variational}. Instead, let $k^{(p)} = k(k+1)\ldots(k+p-1)$ and approximate $e^{\beta_t} \approx A_k = C\delta^pk^{(p)}$, $\frac{\mathrm{d}}{\mathrm{d}t}e^{\beta_t} \approx \dfrac{A_{k+1} - A_k}{\delta} = Cp\delta^{p-1}k^{(p-1)}$. Also denote $\tau_k = \dfrac{\alpha_k}{A_k}$, we have the iterative algorithm
+
+\begin{equation}
+    \begin{cases}
+        z_{k+1} = \argmin\limits_{z}\left\{A_k f\left(\dfrac{\delta\tau_k}{1+\delta\tau_k}z + \dfrac{1}{1+\delta\tau_k}x_k \right) + \dfrac{1}{\delta\tau_k}D_h(z, z_{k})\right\} \\
+        x_{k+1} = \dfrac{\delta\tau_k}{1+\delta\tau_k}z_{k+1} + \dfrac{1}{1+\delta\tau_k}x_k                                                                                      \\
+    \end{cases}
+    \label{algorithm:1st-implicit}
+\end{equation}
+
+\begin{proposition}
+    The algorithm (\ref{algorithm:1st-implicit}) yields
+    \begin{equation}
+        f(x_k) - f(x^*) \le O\left(1/A_k\right).
+    \end{equation}
+\end{proposition}
+
+It is worth noting that the update of $(z_k)$ is as difficult to carry as solving the original problem. Therefore, the explicit method is implied with an extrapolating sequence $(y_k)$ and under some conditions to guarantee the same convergence rate as that of the implicit method. In particular, consider two possible explicit algorithm
+
+\begin{equation}
+    \begin{cases}
+        x_{k+1} = \delta\tau_kz_k + (1-\delta\tau_k)y_k \\
+        \nabla h(z_{k+1}) = \nabla h(z_{k}) - \delta\alpha_k \nabla f(y_{k+1}),
+    \end{cases}
+    \label{algorithm:1st-implicit-1}
+\end{equation}
+
+\begin{equation}
+    \begin{cases}
+        x_{k+1} = \delta\tau_kz_k + (1-\delta\tau_k)y_k \\
+        \nabla h(z_{k+1}) = \nabla h(z_{k}) - \delta\alpha_k \nabla f(x_{k+1}).
+    \end{cases}
+    \label{algorithm:1st-implicit-2}
+\end{equation}
+
+\begin{proposition}
+    Assume that $h$ is $\sigma$-uniformly convex with respect to $\|\cdot\|^p$, both algorithms (\ref{algorithm:1st-implicit-1}) and (\ref{algorithm:1st-implicit-2}) has
+    $$f(x_k) - f(x^*) \le O\left(1/A_k\right).$$
+\end{proposition}
+
+Different applications of $(y_k)$ reveal published algorithms \cite{wilson2021lyapunov}. The second Bregman Lagrangian (\ref{eq:2nd-bregman}) is also studied. We give a summary in Table \ref{table:1st-bregman} and \ref{table:2st-bregman}.
+
+
+\begin{table}[ht]
+    \centering
+    \begin{tabular}{|l|l|}
+        \hline
+        Bregman Lagrangian          & $\L_1(X,V,t) = e^{\alpha_t+\gamma_t}(D_h(X+e^{-\alpha_t}V, X)- e^{\beta_t}f(X))$                                                                                           \\
+        \hline
+        Dynamic                     & $\dfrac{\mathrm{d}}{\mathrm{d}t}\nabla h(X + e^{-\alpha_t}V) = -e^{\alpha_t+\beta_t}\nabla f(X)$                                                                           \\
+        \hline
+        Family                      & $\beta_t = p\log t + \log C$                                                                                                                                               \\
+        \hline
+        Lyapunov function           & $\E_t = D_h(x^*, X + e^{-\alpha_t}\dot{X}) + e^{\beta_t}\left(f(X) - f(x^*)\right)$                                                                                        \\
+        \hline
+        Continuous convergence rate & $O\left(e^{-\beta_t}\right)$                                                                                                                                               \\
+        \hline
+        \multirow{2}{*}{Implicit discretization }
+                                    & $\begin{cases}
+                                               z_{k+1} = \argmin\limits_{z}\left\{A_k f\left(\dfrac{\delta\tau_k}{1+\delta\tau_k}z + \dfrac{1}{1+\delta\tau_k}x_k \right) + \dfrac{1}{\delta\tau_k}D_h(z, z_{k})\right\} \\
+                                               x_{k+1} = \dfrac{\delta\tau_k}{1+\delta\tau_k}z_{k+1} + \dfrac{1}{1+\delta\tau_k}x_k
+                                           \end{cases}$ \\
+
+                                    & $(\delta > 0, A_k = C\delta^pk^{(p)}, \tau_k = \dfrac{\alpha_k}{A_k})$                                                                                                     \\
+        \hline
+        Implicit convergence rate   & $O\left(1/A_k\right)$                                                                                                                                                      \\
+        \hline
+        \multirow{4}{*}{Explicit discretization }
+
+                                    & $    \begin{cases}
+                                                   x_{k+1} = \delta\tau_kz_k + (1-\delta\tau_k)y_k \\
+                                                   \nabla h(z_{k+1}) = \nabla h(z_{k}) - \delta\alpha_k \nabla f(y_{k+1})
+                                               \end{cases}$                                                                                                 \\
+                                    & or                                                                                                                                                                         \\
+
+                                    & $\begin{cases}
+                                               x_{k+1} = \delta\tau_kz_k + (1-\delta\tau_k)y_k \\
+                                               \nabla h(z_{k+1}) = \nabla h(z_{k}) - \delta\alpha_k \nabla f(x_{k+1})
+                                           \end{cases}$                                                                                                     \\
+                                    & ($h$ is $\sigma$-uniformly convex with respect to $\|\cdot\|^p$ and $0 < C < 1/\sigma p^p$)                                                                                \\
+        \hline
+        Explicit convergence rate   & $O\left(1/A_k\right)    $                                                                                                                                                  \\
+        \hline
+    \end{tabular}
+    \caption{Summary on the first Bregman Lagrangian derivations}
+    \label{table:1st-bregman}
+\end{table}
+
+\begin{table}[ht]
+    \centering
+    \begin{tabular}{|l|l|}
+        \hline
+        Bregman Lagrangian        & $\L_2(X,V,t) = e^{\alpha_t+\beta_t+\gamma_t}(\mu D_h(X+e^{-\alpha_t}V, X)- f(X))$                                                                                          \\
+        \hline
+        Dynamic                   & $\dfrac{\mathrm{d}}{\mathrm{d}t}\nabla h(X + e^{-\alpha_t}V) = \dot{\beta_t}\nabla h(X) - \dot{\beta_t}\nabla h(X + e^{-\alpha_t}V) -\dfrac{e^{\alpha_t}}{\mu}\nabla f(X)$ \\
+        \hline
+        Family                    & $\beta_t = \sqrt{\mu}t$                                                                                                                                                    \\
+        \hline
+        Lyapunov function         & $\E_t = e^{\beta_t}\left(\mu D_h(X+e^{-\alpha_t}V, X) + f(X) - f(x)\right)$                                                                                                \\
+        \hline
+        \multirow{2}{*}{Implicit discretization }
+                                  & $\begin{cases}
+                                             z_{k+1} = \argmin\limits_{z}\left\{f\left(x \right) + \mu D_h\left(z, x\right) + \frac{\mu}{\delta\tau_k}D_h(z,z_k)\right\} \\
+                                             x_{k+1} = \dfrac{\delta\tau_k}{1+\delta\tau_k}z_{k+1} + \dfrac{1}{1+\delta\tau_k}x_k
+                                         \end{cases}$                                               \\
+
+                                  & $(x = \dfrac{\delta\tau_k}{1+\delta\tau_k}z + \dfrac{1}{1+\delta\tau_k}x_k,  \delta > 0, A_k = (1+\sqrt{\mu}\delta)^k, \tau_k = \dfrac{\alpha_k}{A_k})$                    \\
+        \hline
+        Implicit convergence rate & $O\left(1/A_k\right)$                                                                                                                                                      \\
+        \hline
+        \multirow{1}{*}{Explicit discretization }
+
+                                  & $\begin{cases}
+                                             x_k = \dfrac{\delta\tau_k}{1+\delta\tau_k}z_k + \dfrac{1}{1+\delta\tau_k}y_k \\
+                                             \nabla h(z_{k+1}) - \nabla h(z_{k}) = \delta\tau_k \left(\nabla h(x_{k}) - \nabla h(z_{k}) - \frac{1}{\mu}\nabla f(x_{k})\right)
+                                         \end{cases}$                                           \\
+        \hline
+        Explicit convergence rate & $O\left(e^{-\mu k}\right)    $                                                                                                                                             \\
+        \hline
+    \end{tabular}
+    \caption{Summary on the second Bregman Lagrangian derivations}
+    \label{table:2st-bregman}
+\end{table}
+
+\section{Conclusion}
+Generalized Lagrangians serve as a new framework for developing novel optimization algorithms. Further studies can focus on the choice of generalization for the energies and scaling factors, or the choice of the parameter in existing Bregman Lagrangians.
